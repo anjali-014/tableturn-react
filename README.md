@@ -7,7 +7,7 @@
 ## Progress
 
 - [x] Ticket 1 · The front door
-- [ ] Ticket 2 · Moving between people
+- [x] Ticket 2 · Moving between people
 - [ ] Ticket 3 · The floor
 - [ ] Ticket 4 · Finding one table
 - [ ] Ticket 5 · A party joins the list

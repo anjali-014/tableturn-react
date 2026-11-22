@@ -1,17 +1,10 @@
 import { Link } from 'react-router-dom';
+import { Avatar } from '../components/Header.jsx';
 import Icon from '../components/Icon.jsx';
 import TableTop from '../components/TableTop.jsx';
 import { BRANCH } from '../data/restaurant.js';
 import { PERSONAS } from '../data/personas.js';
 import { useGet } from '../state/AppContext.jsx';
-
-function Avatar({ persona, size = 34 }) {
-  return (
-    <span className="avatar" style={{ '--avatar': persona.color, width: size, height: size, fontSize: size * 0.42 }}>
-      {persona.name.replace('A ', '')[0].toUpperCase()}
-    </span>
-  );
-}
 
 /** The first screen: what TableTurn is, a slice of the real floor, and who you want to be. */
 export default function Welcome() {

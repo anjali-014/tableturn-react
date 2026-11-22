@@ -198,5 +198,344 @@
     "criterion": 8,
     "checked_by": "browser",
     "reason": "Where the drawing sits and how many cards stand in a row at phone width is layout, which a pretend browser does not draw."
+  },
+  {
+    "ticket": "F-02",
+    "test": "every page has the TableTurn mark with \"Kothari's · Baner\", and clicking it opens the welcome page",
+    "criterion": 0,
+    "what_should_happen": "At the top of Joseph's screen sits the TableTurn mark with the name \"TableTurn\" and \"Kothari's · Baner\". Clicking it opens the welcome page at /, which has the same mark.",
+    "look_at": [
+      "src/components/Header.jsx"
+    ],
+    "exact_words": [
+      "TableTurn home",
+      "TableTurn",
+      "Kothari's",
+      "Baner"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "on the welcome page the header has no back arrow and no person button",
+    "criterion": 1,
+    "what_should_happen": "On the welcome page nobody has been picked yet. The header shows the TableTurn mark, but no back arrow and no person button.",
+    "look_at": [
+      "src/components/Header.jsx"
+    ],
+    "exact_words": [
+      "TableTurn home",
+      "Back to the home page"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "on /staff the back arrow comes before the TableTurn name, and the person button shows J, Joseph and Floor staff",
+    "criterion": 2,
+    "what_should_happen": "On Joseph's tables the first thing Tab reaches is the back arrow, named \"Back to the home page\", and the next is the TableTurn name. On the right a person button shows his initial J, \"Joseph\" and \"Floor staff\".",
+    "look_at": [
+      "src/components/Header.jsx",
+      "src/data/personas.js"
+    ],
+    "exact_words": [
+      "Back to the home page",
+      "TableTurn home",
+      "Joseph",
+      "Floor staff"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "criterion": 2,
+    "checked_by": "browser",
+    "reason": "That the person button sits on the right of the header is layout, which a pretend browser does not draw."
+  },
+  {
+    "ticket": "F-02",
+    "test": "the back arrow on a person's screen opens the welcome page",
+    "criterion": 3,
+    "what_should_happen": "On Meera's floor, clicking the back arrow opens the welcome page at /. The back arrow is then gone, because nobody has been picked.",
+    "look_at": [
+      "src/components/Header.jsx"
+    ],
+    "exact_words": [
+      "Back to the home page"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "the person button opens \"View the restaurant as\" with the four people and their roles",
+    "criterion": 4,
+    "what_should_happen": "Clicking the person button opens a menu that starts with \"View the restaurant as\". It lists four people with their roles, in order: Meera the host, Joseph on the floor, a guest and Ravi the manager.",
+    "look_at": [
+      "src/components/Header.jsx",
+      "src/data/personas.js"
+    ],
+    "exact_words": [
+      "Joseph",
+      "View the restaurant as",
+      "Meera",
+      "Host",
+      "Floor staff",
+      "A guest",
+      "Guest",
+      "Ravi",
+      "Manager"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "in the person menu the person whose screens these are is marked as the current one",
+    "criterion": 4,
+    "what_should_happen": "Joseph opens the person menu on his own screen. His option is marked as the current one, so a screen reader says so as well as the tick showing it. Meera, the guest and Ravi are not marked.",
+    "look_at": [
+      "src/components/Header.jsx"
+    ],
+    "exact_words": [
+      "Joseph",
+      "Meera",
+      "A guest",
+      "Ravi"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "criterion": 4,
+    "checked_by": "browser",
+    "reason": "The tick beside the current person is a drawing, and the menu opening under the button is layout, so only a real browser shows them; that the current person is marked for a screen reader is tested above."
+  },
+  {
+    "ticket": "F-02",
+    "test": "choosing Ravi closes the menu and opens his board at /manager/board",
+    "criterion": 5,
+    "what_should_happen": "With the person menu open, clicking Ravi closes the menu. Ravi's board opens at /manager/board and the person button now names Ravi.",
+    "look_at": [
+      "src/components/Header.jsx"
+    ],
+    "exact_words": [
+      "Joseph",
+      "Ravi"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "a click outside the person menu closes it and nothing else changes",
+    "criterion": 6,
+    "what_should_happen": "With the person menu open, a click anywhere outside it closes the menu. The page stays on Joseph's tables and the button still names Joseph.",
+    "look_at": [
+      "src/components/Header.jsx",
+      "src/components/useDismiss.js"
+    ],
+    "exact_words": [
+      "Joseph"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "Esc closes the person menu and nothing else changes",
+    "criterion": 6,
+    "what_should_happen": "With the person menu open, pressing Esc closes the menu. The page stays on Joseph's tables and the button still names Joseph.",
+    "look_at": [
+      "src/components/Header.jsx",
+      "src/components/useDismiss.js"
+    ],
+    "exact_words": [
+      "Joseph"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "pointing at the guest option opens \"Be the guest of\" with tonight's parties, newest first",
+    "criterion": 7,
+    "what_should_happen": "Kulkarni (6 covers) and then Shah (2 covers) have joined the list. Pointing at the guest option in the person menu opens \"Be the guest of\" beside it, listing each party with its number, name and covers, newest first: W002 Shah 2, then W001 Kulkarni 6.",
+    "look_at": [
+      "src/components/Header.jsx"
+    ],
+    "exact_words": [
+      "Joseph",
+      "Guest",
+      "Be the guest of",
+      "W001",
+      "Kulkarni"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "clicking the guest option opens \"Be the guest of\" with tonight's parties",
+    "criterion": 7,
+    "what_should_happen": "On a computer a click on the guest option first points at it, then clicks it. The list \"Be the guest of\" must open and stay open with both parties of the evening.",
+    "look_at": [
+      "src/components/Header.jsx"
+    ],
+    "exact_words": [
+      "Joseph",
+      "Guest",
+      "Be the guest of"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "Enter on the guest option opens the parties, as a click does",
+    "criterion": 7,
+    "what_should_happen": "With the person menu open, Tab reaches the guest option. Pressing Enter on it opens \"Be the guest of\" with both parties of the evening.",
+    "look_at": [
+      "src/components/Header.jsx"
+    ],
+    "exact_words": [
+      "Joseph",
+      "Guest",
+      "Be the guest of"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "criterion": 7,
+    "checked_by": "browser",
+    "reason": "That the list opens beside the menu on a computer, and under the guest option on a phone, is layout."
+  },
+  {
+    "ticket": "F-02",
+    "test": "with nobody on the list the guest's list says \"Nobody is on the list yet. Add a party as Meera, the host.\"",
+    "criterion": 8,
+    "what_should_happen": "Nobody has joined the list yet. Opening the guest's list in the person menu shows no parties and says \"Nobody is on the list yet. Add a party as Meera, the host.\"",
+    "look_at": [
+      "src/components/Header.jsx"
+    ],
+    "exact_words": [
+      "Joseph",
+      "Guest",
+      "Nobody is on the list yet. Add a party as Meera, the host."
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "choosing W001 Kulkarni closes the menu, opens My wait at /guest and names the Kulkarni party in the header",
+    "criterion": 9,
+    "what_should_happen": "In the guest's list, clicking W001 Kulkarni closes the menu and opens My wait at /guest. The person button now reads \"Kulkarni party\" and \"Guest · W001\", and the guest option in the menu reads the same.",
+    "look_at": [
+      "src/components/Header.jsx"
+    ],
+    "exact_words": [
+      "Joseph",
+      "Guest",
+      "W001",
+      "Kulkarni",
+      "Kulkarni party",
+      "Guest · W001"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "on Meera's floor the tabs \"The floor\" and \"Waitlist\" sit beside the title, The floor is current, and Waitlist opens",
+    "criterion": 10,
+    "what_should_happen": "On Meera's floor there are two tabs, \"The floor\" and \"Waitlist\", and The floor is marked as the page she is on. Clicking Waitlist opens /host/waitlist, and Waitlist becomes the current tab.",
+    "look_at": [
+      "src/components/SectionTabs.jsx",
+      "src/data/personas.js"
+    ],
+    "exact_words": [
+      "The floor",
+      "Waitlist"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "on the Waitlist page the tab \"The floor\" opens the floor",
+    "criterion": 10,
+    "what_should_happen": "On Meera's Waitlist page the other tab is \"The floor\". Clicking it opens /host/floor.",
+    "look_at": [
+      "src/components/SectionTabs.jsx",
+      "src/data/personas.js"
+    ],
+    "exact_words": [
+      "The floor"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "criterion": 10,
+    "checked_by": "browser",
+    "reason": "The current tab being filled in Meera's colour is a colour; the test checks only that it is marked as the current page."
+  },
+  {
+    "ticket": "F-02",
+    "test": "with three parties waiting the Waitlist tab carries a badge with 3",
+    "criterion": 11,
+    "what_should_happen": "Three parties are waiting on the list. On Meera's floor the Waitlist tab carries a badge that reads 3.",
+    "look_at": [
+      "src/components/SectionTabs.jsx"
+    ],
+    "exact_words": [
+      "Waitlist"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "with nobody waiting the Waitlist tab has no badge",
+    "criterion": 11,
+    "what_should_happen": "The only party of the evening has already been seated, so nobody is waiting. The Waitlist tab reads just \"Waitlist\", with no badge, not even a 0.",
+    "look_at": [
+      "src/components/SectionTabs.jsx"
+    ],
+    "exact_words": [
+      "The floor",
+      "Back to the home page",
+      "Waitlist"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "the Waitlist badge changes as parties join or are seated, with no reload",
+    "criterion": 11,
+    "what_should_happen": "Two parties are waiting, so the badge reads 2. A third joins somewhere else and, within 20 seconds and with no reload, the badge reads 3. Once two of them are seated it reads 1.",
+    "look_at": [
+      "src/components/SectionTabs.jsx",
+      "src/state/AppContext.jsx"
+    ],
+    "exact_words": [
+      "Waitlist"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "/host leads to /host/floor",
+    "criterion": 12,
+    "what_should_happen": "Opening the short address /host lands on Meera's floor. The address becomes /host/floor and the header names Meera.",
+    "look_at": [
+      "src/App.jsx"
+    ],
+    "exact_words": [
+      "Meera"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "/manager leads to /manager/board",
+    "criterion": 12,
+    "what_should_happen": "Opening the short address /manager lands on Ravi's board. The address becomes /manager/board and the header names Ravi.",
+    "look_at": [
+      "src/App.jsx"
+    ],
+    "exact_words": [
+      "Ravi"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "test": "an address the app does not have, such as /kitchen, opens the welcome page at /",
+    "criterion": 13,
+    "what_should_happen": "Opening /kitchen, an address the app does not have, lands on the welcome page. The address becomes / and there is no back arrow.",
+    "look_at": [
+      "src/App.jsx"
+    ],
+    "exact_words": [
+      "TableTurn home",
+      "Back to the home page"
+    ]
+  },
+  {
+    "ticket": "F-02",
+    "criterion": 14,
+    "checked_by": "browser",
+    "reason": "The page's own scroll bar needs a page taller than the window, scrolling and dragging; a pretend browser has no heights, so the bar never shows there."
   }
 ]
