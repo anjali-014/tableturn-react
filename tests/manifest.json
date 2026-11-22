@@ -537,5 +537,214 @@
     "criterion": 14,
     "checked_by": "browser",
     "reason": "The page's own scroll bar needs a page taller than the window, scrolling and dragging; a pretend browser has no heights, so the bar never shows there."
+  },
+  {
+    "ticket": "F-03",
+    "test": "the floor reads \"Kothari's · Baner\" over the title \"The floor\"",
+    "criterion": 0,
+    "what_should_happen": "Meera's floor has the title \"The floor\". Over it a small line reads \"Kothari's · Baner\", so the words show twice on the screen: once in the header and once over the title.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "The floor",
+      "Kothari's",
+      "Baner"
+    ]
+  },
+  {
+    "ticket": "F-03",
+    "test": "on a fresh evening the count cards read 22 tables, 22 free, 0 seated and — for the longest sitting",
+    "criterion": 1,
+    "what_should_happen": "On a fresh evening the four count cards read \"Total tables\" 22 with \"10 twos · 8 fours · 4 sixes\", and \"Free tables\" 22 with \"ready for a party\". \"Seated\" reads 0 with \"nobody seated yet\", and \"Longest sitting\" reads \"—\" with \"since seated\".",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Total tables",
+      "10 twos · 8 fours · 4 sixes",
+      "Free tables",
+      "ready for a party",
+      "Seated",
+      "nobody seated yet",
+      "Longest sitting",
+      "—",
+      "since seated"
+    ]
+  },
+  {
+    "ticket": "F-03",
+    "test": "with two parties seated 12 and 30 minutes ago the cards read 20 free, 2 seated and 30 min longest sitting",
+    "criterion": 2,
+    "what_should_happen": "One party sat down 30 minutes ago and another 12 minutes ago. The cards read \"Free tables\" 20 and \"Seated\" 2 with \"parties eating\", and \"Longest sitting\" gives the longer of the two, \"30 min\".",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Free tables",
+      "ready for a party",
+      "Seated",
+      "parties eating",
+      "Longest sitting",
+      "since seated",
+      "Total tables",
+      "{minutes} min"
+    ]
+  },
+  {
+    "ticket": "F-03",
+    "test": "Window, Garden and Indoor come in that order with their free counts, each laid out twos, then fours, then sixes",
+    "criterion": 3,
+    "what_should_happen": "The tables stand in three sections, Window, Garden and Indoor, in that order, each headed with its free count: \"7/7 free\", \"8/8 free\" and \"7/7 free\". Inside each section the two-tops come first, then the four-tops, then the six-tops, and Window has no six.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Window",
+      "Garden",
+      "Indoor",
+      "{free}/{total} free"
+    ]
+  },
+  {
+    "ticket": "F-03",
+    "criterion": 3,
+    "checked_by": "browser",
+    "reason": "That each size stands in a row of its own, one row under the other, is layout; the test checks only the order the tables come in."
+  },
+  {
+    "ticket": "F-03",
+    "test": "a free table shows its number tag and \"2 seats\", \"4 seats\" or \"6 seats\"",
+    "criterion": 4,
+    "what_should_happen": "A free table shows its number tag, such as T01. Under it the label gives its size: \"2 seats\" for T01, \"4 seats\" for T11 and \"6 seats\" for T19.",
+    "look_at": [
+      "src/components/TableTop.jsx"
+    ],
+    "exact_words": [
+      "{seats} seats"
+    ]
+  },
+  {
+    "ticket": "F-03",
+    "criterion": 4,
+    "checked_by": "browser",
+    "reason": "The chairs around the table and the green dot are a drawing and a colour, hidden from screen readers."
+  },
+  {
+    "ticket": "F-03",
+    "test": "a table with a party at it shows the party's number W001 and the minutes since they sat, 12 min",
+    "criterion": 5,
+    "what_should_happen": "The Kulkarni party, W001, sat down at T19 twelve minutes ago. T19 shows \"W001\" on its top and \"12 min\" in place of its seats.",
+    "look_at": [
+      "src/components/TableTop.jsx"
+    ],
+    "exact_words": [
+      "W001",
+      "{minutes} min",
+      "{seats} seats"
+    ]
+  },
+  {
+    "ticket": "F-03",
+    "criterion": 5,
+    "checked_by": "browser",
+    "reason": "The warm look of a seated table is a colour."
+  },
+  {
+    "ticket": "F-03",
+    "test": "a table whose party has left and nobody has wiped reads \"to clear\"",
+    "criterion": 6,
+    "what_should_happen": "The party at T19 has got up and nobody has wiped the table yet. T19 reads \"to clear\" in place of its seats.",
+    "look_at": [
+      "src/components/TableTop.jsx"
+    ],
+    "exact_words": [
+      "to clear",
+      "{seats} seats"
+    ]
+  },
+  {
+    "ticket": "F-03",
+    "criterion": 6,
+    "checked_by": "browser",
+    "reason": "The grey, striped look and the plates left on the top are a colour and a drawing, hidden from screen readers."
+  },
+  {
+    "ticket": "F-03",
+    "test": "under the tables the legend reads \"Free\", \"Seated\" and \"Left, to be cleared\"",
+    "criterion": 7,
+    "what_should_happen": "The floor has a legend of three lines. They read \"Free\", \"Seated\" and \"Left, to be cleared\", in that order.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Free",
+      "Seated",
+      "Left, to be cleared"
+    ]
+  },
+  {
+    "ticket": "F-03",
+    "criterion": 7,
+    "checked_by": "browser",
+    "reason": "That the legend sits under the tables is layout."
+  },
+  {
+    "ticket": "F-03",
+    "test": "when a party is seated, leaves and its table is cleared, the table and the count cards change with no reload",
+    "criterion": 8,
+    "what_should_happen": "With the floor open, the Kulkarni party is seated at T19 on another screen, then leaves, then the table is cleared. Each time, within 20 seconds and with no reload, T19 and the count cards change: W001 and one more seated, then \"to clear\" and nobody seated, then \"6 seats\" and 22 free again.",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/state/AppContext.jsx"
+    ],
+    "exact_words": [
+      "Free tables",
+      "Seated",
+      "parties eating",
+      "nobody seated yet",
+      "to clear",
+      "{seats} seats",
+      "W001"
+    ]
+  },
+  {
+    "ticket": "F-03",
+    "test": "as 20 seconds pass, a seated table's minutes and \"Longest sitting\" grow on their own",
+    "criterion": 9,
+    "what_should_happen": "T19's party has sat for a little under 13 minutes, so T19 and \"Longest sitting\" read \"12 min\". Twenty seconds later, with no reload, both read \"13 min\".",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/state/AppContext.jsx"
+    ],
+    "exact_words": [
+      "Longest sitting",
+      "{minutes} min"
+    ]
+  },
+  {
+    "ticket": "F-03",
+    "test": "before the floor is read neither the count cards nor the tables are drawn, then they appear together",
+    "criterion": 10,
+    "what_should_happen": "In the first moment, before the floor has been read, there are no count cards and no tables at all, not even zeros. Once the floor is read the cards and all 22 tables appear together.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Total tables",
+      "Free tables"
+    ]
+  },
+  {
+    "ticket": "F-03",
+    "test": "each table is a button named like \"Table T01, 2 seats, free\", and Tab reaches them in turn",
+    "criterion": 11,
+    "what_should_happen": "Each of the 22 tables is a button whose name gives its number, seats and state, such as \"Table T01, 2 seats, free\". Tab reaches T01 and then T02, one table after another.",
+    "look_at": [
+      "src/components/TableTop.jsx"
+    ],
+    "exact_words": [
+      "Table {no}, {seats} seats, {state}"
+    ]
   }
 ]

@@ -10,7 +10,7 @@ export function AppProvider({ children }) {
   // The party the guest is viewing the app as (none until one is picked).
   const [guestParty, setGuestParty] = useState(null);
 
-  // Time passes while the page is open: every 20 seconds the screens read their data again.
+  // Time passes while the page is open, so seated minutes grow on their own.
   useEffect(() => {
     const timer = setInterval(() => setTick((t) => t + 1), 20_000);
     return () => clearInterval(timer);
