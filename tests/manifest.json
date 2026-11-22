@@ -1065,5 +1065,264 @@
       "Table",
       "{section} · {seats} seats"
     ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "the Waitlist tab opens \"Kothari's · tonight's list\" over \"Waitlist\", with the three numbered fields and \"Add to the list\"",
+    "criterion": 0,
+    "what_should_happen": "From Meera's floor, the Waitlist tab opens /host/waitlist. It reads \"Kothari's · tonight's list\" over the title \"Waitlist\", and the form has \"1 Name\", \"2 Covers\" and \"3 Phone (optional)\" with the button \"Add to the list\".",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "{name} · tonight's list",
+      "Waitlist",
+      "Name",
+      "Covers",
+      "Phone",
+      "(optional)",
+      "Add to the list"
+    ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "a fresh form: Name empty with \"Kulkarni\" as the example, Covers 2, Phone empty with \"+919876543210\", and the three help lines",
+    "criterion": 1,
+    "what_should_happen": "On a fresh form the Name box is empty and shows \"Kulkarni\" as its example, Covers reads 2, and the Phone box is empty with \"+919876543210\" as its example. Under each box is its help line, about the name, the number of people and the phone.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "Name",
+      "Covers",
+      "Phone",
+      "Kulkarni",
+      "+919876543210",
+      "One name for the party, as you would call it out.",
+      "How many people. The largest table seats six.",
+      "Kept for calling them back. It never appears in the party’s record."
+    ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "beside a fresh form the panel says \"Add a party\" and what a party gets",
+    "criterion": 2,
+    "what_should_happen": "Before anything has been added, the panel beside the form says \"Add a party\". Under it a line says that a party gets a number, a place in the queue and a quoted wait.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "Add a party",
+      "They get a number, a place in the queue and the wait the restaurant quotes, stamped when they join."
+    ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "\"One more\" and \"One fewer\" change Covers by one, \"One fewer\" stops at 0, and a number can be typed",
+    "criterion": 3,
+    "what_should_happen": "Pressing + (named \"One more\") turns Covers from 2 to 3. Pressing − (named \"One fewer\") five times takes it down to 0 and no lower, and typing 5 in the box makes it 5.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "Covers",
+      "One more",
+      "One fewer"
+    ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "with Name empty, \"Add to the list\" puts \"Type the party’s name first.\" under Name and in the panel, and adds nobody",
+    "criterion": 4,
+    "what_should_happen": "Pressing \"Add to the list\" with the Name box empty shows \"Type the party’s name first.\" under Name, in place of its help line, and marks the Name box. The panel says \"Something in the form is not right\" with the same words, and the Waitlist tab gets no badge, because nobody was added.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx",
+      "src/components/Problem.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Add to the list",
+      "Type the party’s name first.",
+      "One name for the party, as you would call it out.",
+      "Something in the form is not right",
+      "Waitlist"
+    ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "with Name empty and Covers 0, both errors show at once, under their boxes and in the panel",
+    "criterion": 5,
+    "what_should_happen": "With the Name box empty and Covers at 0, pressing \"Add to the list\" shows both errors at once: \"Type the party’s name first.\" under Name and \"Type how many people: at least one.\" under Covers. Both boxes are marked, and the panel gives both sentences.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Add to the list",
+      "Type the party’s name first.",
+      "Type how many people: at least one.",
+      "One name for the party, as you would call it out.",
+      "How many people. The largest table seats six."
+    ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "with Covers 7 the panel says \"No table here seats that many\" and \"The largest table seats 6. Suggest splitting the party.\"",
+    "criterion": 6,
+    "what_should_happen": "Kulkarni is typed with 7 covers, more than any table seats. The panel says \"No table here seats that many\" and \"The largest table seats 6. Suggest splitting the party.\", no box is marked, and nobody is added.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Kulkarni",
+      "Add to the list",
+      "No table here seats that many",
+      "The largest table seats {maxCovers}. Suggest splitting the party.",
+      "How many people. The largest table seats six.",
+      "Waitlist"
+    ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "with Covers 20 the panel also says \"No table here seats that many\"",
+    "criterion": 6,
+    "what_should_happen": "Kulkarni is typed with 20 covers, the most this message covers. The panel says \"No table here seats that many\", and the Covers box is not marked.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Kulkarni",
+      "Add to the list",
+      "No table here seats that many"
+    ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "with Covers 21 it says \"That is too many for one party. The largest table seats six.\" under Covers",
+    "criterion": 7,
+    "what_should_happen": "Kulkarni is typed with 21 covers. Under Covers, in place of its help line, it says \"That is too many for one party. The largest table seats six.\", and the Covers box is marked.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Kulkarni",
+      "Add to the list",
+      "That is too many for one party. The largest table seats six.",
+      "How many people. The largest table seats six."
+    ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "with Phone 98765 it says \"Type the phone with its country code, like +919876543210.\" under Phone, and the box is marked",
+    "criterion": 8,
+    "what_should_happen": "Kulkarni is typed with the phone 98765, which has no country code. Under Phone, in place of its help line, it says \"Type the phone with its country code, like +919876543210.\", the panel says the same, and the Phone box is marked as wrong.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Kulkarni",
+      "Add to the list",
+      "Type the phone with its country code, like +919876543210.",
+      "Kept for calling them back. It never appears in the party’s record."
+    ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "with a name of 61 letters it says \"Keep the name to 60 letters or fewer.\" under Name",
+    "criterion": 9,
+    "what_should_happen": "A name of 61 letters is typed. Under Name it says \"Keep the name to 60 letters or fewer.\", the panel says the same, and the Name box is marked.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Add to the list",
+      "Keep the name to 60 letters or fewer."
+    ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "typing in a box takes the errors and the panel's message away, and the help lines come back",
+    "criterion": 10,
+    "what_should_happen": "Both errors are showing after an empty name and 0 covers. Typing one letter in the Phone box takes away the errors and the panel's message. The help lines come back and the boxes are no longer marked.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "Add to the list",
+      "Type the party’s name first.",
+      "Type how many people: at least one.",
+      "Something in the form is not right",
+      "One name for the party, as you would call it out.",
+      "How many people. The largest table seats six."
+    ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "pressing \"One more\" also takes the errors away",
+    "criterion": 10,
+    "what_should_happen": "The empty-name error is showing. Pressing + (named \"One more\") takes it away, the Name help line comes back, and the panel says \"Add a party\" again.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "Add to the list",
+      "Type the party’s name first.",
+      "One more",
+      "One name for the party, as you would call it out.",
+      "Add a party"
+    ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "a good party is added with \"Add to the list\": Name and Phone empty, and the Waitlist badge counts one more",
+    "criterion": 11,
+    "what_should_happen": "Kulkarni is typed with 6 covers and the phone +919876543210. Pressing \"Add to the list\" adds the party: the Name and Phone boxes are empty again, and the Waitlist tab's badge reads 1.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx",
+      "src/components/SectionTabs.jsx"
+    ],
+    "exact_words": [
+      "Kulkarni",
+      "+919876543210",
+      "Add to the list",
+      "Waitlist"
+    ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "Enter in a box adds the party too, with an empty phone",
+    "criterion": 11,
+    "what_should_happen": "Kulkarni is typed with 1 cover and no phone. Pressing Enter in the Covers box adds the party just as the button does, and the Waitlist badge reads 1.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "Kulkarni",
+      "Waitlist"
+    ]
+  },
+  {
+    "ticket": "F-05",
+    "test": "a refused party leaves no trace anywhere in the app",
+    "criterion": 12,
+    "what_should_happen": "Kulkarni with 7 covers is refused. Afterwards the Waitlist tab still has no badge, and the guest's list in the person menu still says nobody is on the list.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx",
+      "src/components/Header.jsx"
+    ],
+    "exact_words": [
+      "Kulkarni",
+      "Add to the list",
+      "No table here seats that many",
+      "Waitlist",
+      "Meera",
+      "Guest",
+      "Nobody is on the list yet. Add a party as Meera, the host."
+    ]
   }
 ]

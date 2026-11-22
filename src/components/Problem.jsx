@@ -3,7 +3,7 @@ import Icon from './Icon.jsx';
 
 /**
  * A refusal, shown the same way on every screen: what happened, and what to do next. `facts` is what the screen
- * asked about (a table), so the words can name it. 
+ * asked about (a station, what was typed), so the words can name it.
  */
 export default function Problem({ answer, facts, children }) {
   const { title, text } = explain(answer, facts);

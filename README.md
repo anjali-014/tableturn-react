@@ -10,7 +10,7 @@
 - [x] Ticket 2 · Moving between people
 - [x] Ticket 3 · The floor
 - [x] Ticket 4 · Finding one table
-- [ ] Ticket 5 · A party joins the list
+- [x] Ticket 5 · A party joins the list
 - [ ] Ticket 6 · Handing over the number
 - [ ] Ticket 7 · Seating a party
 - [ ] Ticket 8 · The floor staff's view
