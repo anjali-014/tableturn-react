@@ -1,0 +1,202 @@
+[
+  {
+    "ticket": "F-01",
+    "test": "the welcome page names Kothari's and says what TableTurn is",
+    "criterion": 0,
+    "what_should_happen": "When the app opens on the welcome page, a small line names the restaurant and where it is. The big heading reads \"Twenty-two tables.\" with \"No wipe-clean board.\" on its second line, and the paragraph under it starts with the words about an honest wait.",
+    "look_at": [
+      "src/pages/Welcome.jsx"
+    ],
+    "exact_words": [
+      "Kothari's",
+      "Baner, Pune",
+      "Twenty-two tables.",
+      "No wipe-clean board.",
+      "Every party gets a place in the queue and an honest wait"
+    ]
+  },
+  {
+    "ticket": "F-01",
+    "test": "on a fresh evening the counts read 22 tables, 22 free right now and 0 in use",
+    "criterion": 1,
+    "what_should_happen": "On a fresh evening nobody has been seated. Once the welcome page has read the floor, its three counts read 22 tables, 22 free right now and 0 in use.",
+    "look_at": [
+      "src/pages/Welcome.jsx"
+    ],
+    "exact_words": [
+      "tables",
+      "free right now",
+      "in use"
+    ]
+  },
+  {
+    "ticket": "F-01",
+    "test": "with one table seated and another waiting to be cleared, free right now shows 20 and in use shows 2",
+    "criterion": 2,
+    "what_should_happen": "Before the page opens, one party sits at a table and another party has left its table, which nobody has wiped yet. The counts come from the real floor, so 20 tables are free right now and 2 are in use, out of 22.",
+    "look_at": [
+      "src/pages/Welcome.jsx"
+    ],
+    "exact_words": [
+      "tables",
+      "free right now",
+      "in use"
+    ]
+  },
+  {
+    "ticket": "F-01",
+    "test": "the drawing shows the table tops T01 to T04, T11 to T13 and T19, and no other table",
+    "criterion": 3,
+    "what_should_happen": "The small drawing beside the heading shows exactly eight table tops from the real floor. They are T01 to T04, T11 to T13 and T19, and no other table number appears on the page.",
+    "look_at": [
+      "src/pages/Welcome.jsx",
+      "src/components/TableTop.jsx"
+    ],
+    "exact_words": [
+      "T01",
+      "T04",
+      "T11",
+      "T13",
+      "T19"
+    ]
+  },
+  {
+    "ticket": "F-01",
+    "test": "the drawing is only a picture: clicking a table top does nothing",
+    "criterion": 3,
+    "what_should_happen": "Clicking a table top in the drawing does nothing. The address stays on the welcome page and no panel opens.",
+    "look_at": [
+      "src/pages/Welcome.jsx",
+      "src/components/TableTop.jsx"
+    ],
+    "exact_words": [
+      "T01",
+      "T19",
+      "Who are you today?"
+    ]
+  },
+  {
+    "ticket": "F-01",
+    "criterion": 3,
+    "checked_by": "browser",
+    "reason": "Whether each table top in the drawing looks free, seated or to be cleared is a colour and a drawing, and the drawing is hidden from screen readers."
+  },
+  {
+    "ticket": "F-01",
+    "test": "before the floor is read the counts show 0 and the drawing is empty, then both fill in",
+    "criterion": 4,
+    "what_should_happen": "In the first moment, before the floor has been read, the counts show 0 and the drawing has no table tops. A moment later both fill in by themselves, with no reload: 22 tables, 22 free right now, and the table tops appear.",
+    "look_at": [
+      "src/pages/Welcome.jsx",
+      "src/state/AppContext.jsx"
+    ],
+    "exact_words": [
+      "tables",
+      "free right now",
+      "T01"
+    ]
+  },
+  {
+    "ticket": "F-01",
+    "test": "under \"Who are you today?\" there is one card each for Meera, Joseph, a guest and Ravi",
+    "criterion": 5,
+    "what_should_happen": "Under \"Who are you today?\" a line says that each person sees their own screens and changes the same floor. There are four cards, Meera the host, Joseph on the floor, a guest and Ravi the manager, each with its one-line description and \"Continue as\" with the person.",
+    "look_at": [
+      "src/pages/Welcome.jsx",
+      "src/data/personas.js"
+    ],
+    "exact_words": [
+      "Who are you today?",
+      "Each person sees their own screens. Everything they do changes the same floor.",
+      "Meera",
+      "Host",
+      "Runs the host stand. Sees every table, keeps the waitlist and seats each party.",
+      "Joseph",
+      "Floor staff",
+      "Works the floor. Marks a table when the party leaves, and again once it is wiped.",
+      "A guest",
+      "Guest",
+      "Gives a name at the stand. Sees the wait they were quoted and, once seated, the wait they had.",
+      "Ravi",
+      "Manager",
+      "Owns the restaurant. Reads every party’s record.",
+      "Continue as Meera",
+      "Continue as Joseph",
+      "Continue as a guest",
+      "Continue as Ravi"
+    ]
+  },
+  {
+    "ticket": "F-01",
+    "test": "\"Continue as Meera\" opens Meera's floor at /host/floor",
+    "criterion": 6,
+    "what_should_happen": "Clicking Meera's card opens her floor. The address becomes /host/floor.",
+    "look_at": [
+      "src/pages/Welcome.jsx",
+      "src/data/personas.js"
+    ],
+    "exact_words": [
+      "Continue as Meera"
+    ]
+  },
+  {
+    "ticket": "F-01",
+    "test": "\"Continue as Joseph\" opens Joseph's tables at /staff",
+    "criterion": 6,
+    "what_should_happen": "Clicking Joseph's card opens his tables. The address becomes /staff.",
+    "look_at": [
+      "src/pages/Welcome.jsx",
+      "src/data/personas.js"
+    ],
+    "exact_words": [
+      "Continue as Joseph"
+    ]
+  },
+  {
+    "ticket": "F-01",
+    "test": "\"Continue as a guest\" opens the guest's wait at /guest",
+    "criterion": 6,
+    "what_should_happen": "Clicking the guest's card opens the guest's own wait. The address becomes /guest.",
+    "look_at": [
+      "src/pages/Welcome.jsx",
+      "src/data/personas.js"
+    ],
+    "exact_words": [
+      "Continue as a guest"
+    ]
+  },
+  {
+    "ticket": "F-01",
+    "test": "\"Continue as Ravi\" opens Ravi's board at /manager/board",
+    "criterion": 6,
+    "what_should_happen": "Clicking Ravi's card opens his board. The address becomes /manager/board.",
+    "look_at": [
+      "src/pages/Welcome.jsx",
+      "src/data/personas.js"
+    ],
+    "exact_words": [
+      "Continue as Ravi"
+    ]
+  },
+  {
+    "ticket": "F-01",
+    "test": "Tab reaches the four person cards in order, and Enter opens the one in focus",
+    "criterion": 7,
+    "what_should_happen": "Pressing Tab through the page reaches Meera's card, then Joseph's, the guest's and Ravi's, in that order. Pressing Enter on the card in focus opens that person's screen.",
+    "look_at": [
+      "src/pages/Welcome.jsx"
+    ],
+    "exact_words": [
+      "Continue as Meera",
+      "Continue as Joseph",
+      "Continue as a guest",
+      "Continue as Ravi"
+    ]
+  },
+  {
+    "ticket": "F-01",
+    "criterion": 8,
+    "checked_by": "browser",
+    "reason": "Where the drawing sits and how many cards stand in a row at phone width is layout, which a pretend browser does not draw."
+  }
+]
