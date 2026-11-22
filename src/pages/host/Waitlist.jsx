@@ -1,14 +1,16 @@
 import { useState } from 'react';
+import HandTicket from '../../components/HandTicket.jsx';
 import Icon from '../../components/Icon.jsx';
 import Problem from '../../components/Problem.jsx';
 import SectionTabs from '../../components/SectionTabs.jsx';
+import { formatTime } from '../../data/format.js';
 import { fieldWords } from '../../data/messages.js';
 import { BRANCH } from '../../data/restaurant.js';
-import { useApp } from '../../state/AppContext.jsx';
+import { useApp, usePartyRecords } from '../../state/AppContext.jsx';
 
-/** The answer to "join the list": why not, or the panel ready for the next party. */
-function JoinResult({ answer, sent }) {
-  if (!answer || answer.status === 201) {
+/** The answer to "join the list": the party's number and place, or why not. */
+function JoinResult({ answer, sent, queue, onNext }) {
+  if (!answer) {
     return (
       <div className="result result-idle">
         <Icon name="users" size={28} />
@@ -17,12 +19,18 @@ function JoinResult({ answer, sent }) {
       </div>
     );
   }
+  if (answer.status === 201) {
+    return <HandTicket key={answer.body.partyId} party={answer.body} queue={queue} onDone={onNext} />;
+  }
   return <div className="result result-no"><Problem answer={answer} facts={sent} /></div>;
 }
 
-/** Meera's waitlist: POST /waitlist adds a party and quotes its wait. */
+/**
+ * Meera's waitlist: POST /waitlist adds a party and quotes its wait; each party on the list is read
+ * with GET /parties/{partyId}.
+ */
 export default function Waitlist() {
-  const { post } = useApp();
+  const { post, now } = useApp();
   const [name, setName] = useState('');
   const [covers, setCovers] = useState(2);
   const [phone, setPhone] = useState('');
@@ -30,7 +38,12 @@ export default function Waitlist() {
   // what the form sent, so a refusal can say what to fix in each box
   const [sent, setSent] = useState(null);
 
+  const records = usePartyRecords();
+  const parties = records ?? [];
+  const waiting = parties.filter((p) => p.state === 'waiting').sort((a, b) => a.position - b.position || a.partyId.localeCompare(b.partyId));
+
   const fieldErrors = fieldWords(answer, sent);
+  const handing = answer?.status === 201;   // a number was given: hand it over first
 
   async function join(e) {
     e.preventDefault();
@@ -53,8 +66,8 @@ export default function Waitlist() {
       </div>
 
       <div className="split">
-        <form className="card form" onSubmit={join} noValidate>
-          <fieldset className="form-fields">
+        <form className={`card form${handing ? ' is-locked' : ''}`} onSubmit={join} noValidate>
+          <fieldset className="form-fields" disabled={handing}>
             <div className="field">
               <label className="field-label" htmlFor="party-name"><span className="step-no">1</span> Name</label>
               <div className={`input-wrap${fieldErrors.name ? ' has-error' : ''}`}>
@@ -93,9 +106,52 @@ export default function Waitlist() {
         </form>
 
         <div className="result-slot">
-          <JoinResult answer={answer} sent={sent} />
+          <JoinResult answer={answer} sent={sent} queue={waiting} onNext={() => { setAnswer(null); setCovers(2); }} />
         </div>
       </div>
+
+      <section className="list-section" aria-labelledby="waiting-title">
+        <h2 id="waiting-title" className="section-title">
+          On the list now <span className="section-count">{waiting.length}</span>
+        </h2>
+
+        {!records ? null : waiting.length === 0 ? (
+          <div className="empty">
+            <Icon name="list" size={28} />
+            <p className="empty-title">Nobody is waiting</p>
+            <p className="empty-text">Add a party above. Seat them from a table on the floor.</p>
+          </div>
+        ) : (
+          <div className="table-card">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Place</th>
+                  <th>Party</th>
+                  <th>Name</th>
+                  <th>Covers</th>
+                  <th>Joined</th>
+                  <th>Quoted</th>
+                  <th>Waiting</th>
+                </tr>
+              </thead>
+              <tbody>
+                {waiting.map((p, i) => (
+                  <tr key={p.partyId} style={{ '--i': i }}>
+                    <td className="mono strong">{p.position}</td>
+                    <td className="mono">{p.partyId}</td>
+                    <td>{p.name}</td>
+                    <td className="mono">{p.covers}</td>
+                    <td className="mono">{formatTime(Date.parse(p.joinedAt))}</td>
+                    <td className="mono">{p.quotedMinutes} min</td>
+                    <td className="mono">{Math.floor((now - Date.parse(p.joinedAt)) / 60000)} min</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
     </div>
   );
 }

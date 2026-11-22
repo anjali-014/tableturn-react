@@ -19,6 +19,8 @@ export function AppProvider({ children }) {
     return () => clearInterval(timer);
   }, []);
 
+  const now = Date.now();
+
   /** A request that changes the data, such as a party joining the list. */
   async function post(path, body) {
     const answer = await api.post(path, body);
@@ -26,7 +28,7 @@ export function AppProvider({ children }) {
     return answer;
   }
 
-  const value = { tick, dataVersion, guestParty, setGuestParty, post };
+  const value = { now, tick, dataVersion, guestParty, setGuestParty, post };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
 
@@ -50,4 +52,20 @@ export function useGet(path) {
 export function usePartyList() {
   const answer = useGet('/parties');
   return answer?.status === 200 ? answer.body.parties : null;
+}
+
+/** Every party of tonight read in full with GET /parties/{partyId}, newest first. Null until they arrive. */
+export function usePartyRecords() {
+  const { tick, dataVersion } = useApp();
+  const [records, setRecords] = useState(null);
+  useEffect(() => {
+    let current = true;
+    (async () => {
+      const list = await api.get('/parties');
+      const answers = await Promise.all(list.body.parties.map((p) => api.get(`/parties/${p.partyId}`)));
+      if (current) setRecords(answers.filter((a) => a.status === 200).map((a) => a.body));
+    })();
+    return () => { current = false; };
+  }, [tick, dataVersion]);
+  return records;
 }

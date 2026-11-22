@@ -1324,5 +1324,233 @@
       "Guest",
       "Nobody is on the list yet. Add a party as Meera, the host."
     ]
+  },
+  {
+    "ticket": "F-06",
+    "test": "after Kulkarni (6) is added, the panel shows step 1, the party over \"Kulkarni party\", and the slip \"Kothari's\", \"W001\", \"6 covers · about 40 min\"",
+    "criterion": 0,
+    "what_should_happen": "Meera adds Kulkarni with 6 covers, the first party of the evening. The panel shows step 1 \"Hand them their number\" still to do, the party over \"Kulkarni party\", and a printed slip reading \"Kothari's\", \"W001\" and \"6 covers · about 40 min\". Under them it says \"Hand W001 to the Kulkarni party\" and \"Drag the ticket to them, or tap it.\"",
+    "look_at": [
+      "src/components/HandTicket.jsx",
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "Name",
+      "Covers",
+      "Add to the list",
+      "Kulkarni",
+      "Hand them their number",
+      "In the queue",
+      "{name} party",
+      "Kothari's",
+      "{covers} {cover|covers} · about {minutes} min",
+      "Hand {partyId} to the {name} party",
+      "Drag the ticket to them, or tap it."
+    ]
+  },
+  {
+    "ticket": "F-06",
+    "criterion": 0,
+    "checked_by": "browser",
+    "reason": "Step 1 being lit as the current step and the party drawn as six people are a colour and a drawing, hidden from screen readers."
+  },
+  {
+    "ticket": "F-06",
+    "test": "while the slip waits to be handed over, the form is locked",
+    "criterion": 1,
+    "what_should_happen": "While the slip waits to be handed over, every box of the form is locked. Meera cannot type a name, change the covers or press \"Add to the list\" until the hand-over is done.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "Name",
+      "Covers",
+      "Phone",
+      "Add to the list",
+      "One more"
+    ]
+  },
+  {
+    "ticket": "F-06",
+    "criterion": 1,
+    "checked_by": "browser",
+    "reason": "The form being greyed out is a colour."
+  },
+  {
+    "ticket": "F-06",
+    "test": "dragging the slip onto the party hands it over: step 1 is ticked, \"Taking their place…\" shows, then step 2 is ticked",
+    "criterion": 2,
+    "what_should_happen": "Meera drags the slip and lets it go over the Kulkarni party. The slip leaves the stand, step 1 is ticked and \"Taking their place…\" shows for a moment. Then step 2 \"In the queue\" is ticked too.",
+    "look_at": [
+      "src/components/HandTicket.jsx"
+    ],
+    "exact_words": [
+      "Kulkarni party",
+      "Taking their place…",
+      "Hand them their number",
+      "In the queue"
+    ]
+  },
+  {
+    "ticket": "F-06",
+    "criterion": 2,
+    "checked_by": "browser",
+    "reason": "The party lighting up while the slip is over them, and the party holding the slip, are a colour and a drawing; a real drag with the mouse needs a real browser."
+  },
+  {
+    "ticket": "F-06",
+    "test": "tapping the slip hands it over just as the drag does",
+    "criterion": 3,
+    "what_should_happen": "Instead of dragging, Meera taps the slip. The same hand-over happens: \"Taking their place…\", both steps ticked, and \"Kulkarni party is number 1 in the queue\".",
+    "look_at": [
+      "src/components/HandTicket.jsx"
+    ],
+    "exact_words": [
+      "Kulkarni party",
+      "Taking their place…",
+      "Hand them their number",
+      "In the queue",
+      "{name} party is number {position} in the queue"
+    ]
+  },
+  {
+    "ticket": "F-06",
+    "test": "Tab reaches the slip, and Enter hands it over",
+    "criterion": 3,
+    "what_should_happen": "Pressing Tab reaches the slip. Pressing Enter on it hands it over as a tap does, and \"Taking their place…\" shows.",
+    "look_at": [
+      "src/components/HandTicket.jsx"
+    ],
+    "exact_words": [
+      "Kulkarni party",
+      "Taking their place…"
+    ]
+  },
+  {
+    "ticket": "F-06",
+    "test": "once handed over, the queue strip shows each waiting party's place and number, with \"Kulkarni party is number 1 in the queue\" and \"Joined at 19:40, quoted about 40 min.\"",
+    "criterion": 4,
+    "what_should_happen": "Once the hand-over is done, a strip named \"The queue, first in line on the left\" shows each waiting party's place and number: here only 1 and W001. Under it the panel says \"Kulkarni party is number 1 in the queue\" and \"Joined at 19:40, quoted about 40 min.\"",
+    "look_at": [
+      "src/components/HandTicket.jsx"
+    ],
+    "exact_words": [
+      "Kulkarni party",
+      "OK, next party",
+      "The queue, first in line on the left",
+      "{name} party is number {position} in the queue",
+      "Joined at {time}, quoted about {minutes} min."
+    ]
+  },
+  {
+    "ticket": "F-06",
+    "test": "a second party's strip puts the first in line on the left and the new party after it",
+    "criterion": 4,
+    "what_should_happen": "Kulkarni, W001, is already waiting when Shah is added and handed the slip W002. The strip reads 1 W001 first, then 2 W002, and the panel says Shah's party is number 2 in the queue.",
+    "look_at": [
+      "src/components/HandTicket.jsx"
+    ],
+    "exact_words": [
+      "Name",
+      "Add to the list",
+      "The queue, first in line on the left",
+      "{name} party is number {position} in the queue"
+    ]
+  },
+  {
+    "ticket": "F-06",
+    "criterion": 4,
+    "checked_by": "browser",
+    "reason": "The new party being lit up in the strip is a colour."
+  },
+  {
+    "ticket": "F-06",
+    "test": "\"OK, next party\" has the focus; pressing it brings back \"Add a party\", unlocks the form and sets Covers to 2",
+    "criterion": 5,
+    "what_should_happen": "Once the hand-over is done, \"OK, next party\" already has the focus. Pressing Enter on it brings the panel back to \"Add a party\", unlocks the form and sets Covers back to 2.",
+    "look_at": [
+      "src/components/HandTicket.jsx",
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "Kulkarni party",
+      "OK, next party",
+      "Add a party",
+      "Name",
+      "Covers"
+    ]
+  },
+  {
+    "ticket": "F-06",
+    "test": "with nobody waiting, \"On the list now\" shows 0 with \"Nobody is waiting\"",
+    "criterion": 6,
+    "what_should_happen": "Nobody has joined the list yet. Under the form, \"On the list now\" shows 0 with \"Nobody is waiting\" and \"Add a party above. Seat them from a table on the floor.\", and no table.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "On the list now",
+      "Nobody is waiting",
+      "Add a party above. Seat them from a table on the floor."
+    ]
+  },
+  {
+    "ticket": "F-06",
+    "test": "with parties waiting, \"On the list now\" counts them and lists them in place order: 1, W001, Kulkarni, 6, 19:40, 40 min, 3 min",
+    "criterion": 7,
+    "what_should_happen": "Kulkarni (6) joined at 19:40 and Shah (2) at 19:41, and it is now 19:43. \"On the list now\" shows 2 and a table with \"Place\", \"Party\", \"Name\", \"Covers\", \"Joined\", \"Quoted\" and \"Waiting\", in place order. The rows read 1, W001, Kulkarni, 6, 19:40, 40 min, 3 min and then 2, W002, Shah, 2, 19:41, 40 min, 2 min.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "On the list now",
+      "Place",
+      "Party",
+      "Name",
+      "Covers",
+      "Joined",
+      "Quoted",
+      "Waiting",
+      "{minutes} min"
+    ]
+  },
+  {
+    "ticket": "F-06",
+    "test": "each \"Waiting\" figure grows on its own every 20 seconds",
+    "criterion": 8,
+    "what_should_happen": "The Kulkarni party has waited a little under 3 minutes, so its \"Waiting\" reads \"2 min\". Twenty seconds later, with no reload, it reads \"3 min\".",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx",
+      "src/state/AppContext.jsx"
+    ],
+    "exact_words": [
+      "On the list now",
+      "{minutes} min"
+    ]
+  },
+  {
+    "ticket": "F-06",
+    "test": "a party seated from another screen leaves \"On the list now\" and the count drops by one",
+    "criterion": 9,
+    "what_should_happen": "Kulkarni and Shah are waiting. The Kulkarnis are seated at T19 from another screen and, within 20 seconds and with no reload, \"On the list now\" shows 1 and only W002 is left in its table.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "On the list now"
+    ]
+  },
+  {
+    "ticket": "F-06",
+    "test": "before the list is read, \"On the list now\" shows but neither the table nor \"Nobody is waiting\" does",
+    "criterion": 10,
+    "what_should_happen": "In the first moment, before the list has been read, the heading \"On the list now\" is there. Neither the table nor \"Nobody is waiting\" shows until the list is read, and then the table appears.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "On the list now",
+      "Nobody is waiting"
+    ]
   }
 ]
