@@ -9,7 +9,7 @@
 - [x] Ticket 1 · The front door
 - [x] Ticket 2 · Moving between people
 - [x] Ticket 3 · The floor
-- [ ] Ticket 4 · Finding one table
+- [x] Ticket 4 · Finding one table
 - [ ] Ticket 5 · A party joins the list
 - [ ] Ticket 6 · Handing over the number
 - [ ] Ticket 7 · Seating a party

@@ -746,5 +746,324 @@
     "exact_words": [
       "Table {no}, {seats} seats, {state}"
     ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "above the tables are \"All sections\", \"Window\", \"Garden\", \"Indoor\" and \"Any state\", \"Free\", \"Seated\", \"Uncleared\", with All sections and Any state pressed",
+    "criterion": 0,
+    "what_should_happen": "Above the tables are two groups of buttons: \"All sections\", \"Window\", \"Garden\", \"Indoor\", and \"Any state\", \"Free\", \"Seated\", \"Uncleared\". On a floor with no filter, \"All sections\" and \"Any state\" are the pressed ones and the rest are not.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "All sections",
+      "Window",
+      "Garden",
+      "Indoor",
+      "Any state",
+      "Free",
+      "Seated",
+      "Uncleared"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "clicking \"Garden\" shows only the Garden section, presses Garden, and the address ends in ?section=Garden",
+    "criterion": 1,
+    "what_should_happen": "Clicking \"Garden\" puts the section into the address, which ends in ?section=Garden. Only the eight Garden tables show, \"Garden\" is pressed and \"All sections\" is not.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Garden",
+      "All sections"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "Garden and then \"Free\" show only the free Garden tables, with ?section=Garden&state=free and \"8 shown · 8 free\"",
+    "criterion": 2,
+    "what_should_happen": "With Garden pressed on a fresh evening, clicking \"Free\" makes the address end in ?section=Garden&state=free. The eight free Garden tables show, and a line reads \"8 shown · 8 free\".",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Free",
+      "{shown} shown · {free} free"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "\"All sections\" and \"Any state\" take their filter off the floor and the address, and the line counting what is shown goes",
+    "criterion": 3,
+    "what_should_happen": "Starting from Garden and Free, clicking \"All sections\" takes the section out of the address and the line reads \"22 shown · 22 free\". Clicking \"Any state\" then leaves no filter at all: the address is just /host/floor, all 22 tables show and the line is gone.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "All sections",
+      "Any state",
+      "{shown} shown · {free} free"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "with a filter on, the count cards still count the whole floor",
+    "criterion": 4,
+    "what_should_happen": "One party sits at T19 in the garden, and the floor is filtered to seated Window tables, which shows none. The count cards still read the whole floor: \"Total tables\" 22, \"Free tables\" 21 and \"Seated\" 1.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Total tables",
+      "Free tables",
+      "Seated"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "opening /host/floor?section=Indoor&state=seated presses the same buttons and shows the same tables",
+    "criterion": 5,
+    "what_should_happen": "Parties sit at T21, indoors, and T19, in the garden. Opening the floor straight at /host/floor?section=Indoor&state=seated presses \"Indoor\" and \"Seated\" and shows only T21.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Indoor",
+      "Seated",
+      "All sections"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "with no table matching (Seated on a fresh evening) the floor says \"No table matches these filters\"",
+    "criterion": 6,
+    "what_should_happen": "On a fresh evening nobody is seated, so the Seated filter matches no table. In place of the tables the floor says \"No table matches these filters\" and \"Change the section or the state to see more of the floor.\"",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "No table matches these filters",
+      "Change the section or the state to see more of the floor."
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "/host/floor?section=Roof says what to pick instead, with no count cards and no tables",
+    "criterion": 7,
+    "what_should_happen": "The address asks for a section called Roof, which the floor does not have. In place of the tables it says \"Something in the form is not right\" and \"Pick a section: Window, Garden or Indoor.\", with a \"Show the whole floor\" button, and there are no count cards and no tables.",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/components/Problem.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Something in the form is not right",
+      "Pick a section: {Window, Garden or Indoor}.",
+      "Show the whole floor",
+      "Total tables"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "a state the floor does not know says \"Pick a state: Free, Seated or Uncleared.\"",
+    "criterion": 7,
+    "what_should_happen": "The address asks for a state the floor does not know. The floor says \"Something in the form is not right\" and \"Pick a state: Free, Seated or Uncleared.\", and shows no tables.",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Something in the form is not right",
+      "Pick a state: {Free, Seated or Uncleared}."
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "\"Show the whole floor\" opens the floor with no filters",
+    "criterion": 7,
+    "what_should_happen": "On the floor that was asked for the Roof, clicking \"Show the whole floor\" opens /host/floor with no filters. The count cards come back with 22 tables, and all 22 tables show.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Show the whole floor",
+      "Total tables"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "typing T07 in the find box and pressing Enter opens T07's drawer",
+    "criterion": 8,
+    "what_should_happen": "The find box, named \"Table number\", shows \"Find a table, e.g. T07\" while it is empty. Typing T07 in it and pressing Enter opens the drawer of T07, a Garden two-top.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Find a table, e.g. T07",
+      "Table number",
+      "{section} · {seats} seats"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "typing just 7 and pressing Enter opens T07's drawer too",
+    "criterion": 8,
+    "what_should_happen": "Typing just 7 in the find box and pressing Enter works as T07 does. The drawer of T07 opens.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Table number",
+      "{section} · {seats} seats"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "typing T99 (or 99) opens a drawer saying \"No such table\" and \"Branch Baner has no table T99. Tables run from T01 to T22.\"",
+    "criterion": 9,
+    "what_should_happen": "Typing T99 and pressing Enter opens a drawer for T99. It says \"No such table\" and \"Branch Baner has no table T99. Tables run from T01 to T22.\", and typing just 99 does the same.",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/components/Problem.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Table number",
+      "No such table",
+      "Branch {code} has no table {table}.",
+      "Tables run from T01 to T22.",
+      "Close"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "clicking a table opens its drawer, with the focus on the drawer's ✕",
+    "criterion": 10,
+    "what_should_happen": "Clicking T07 on the floor opens its drawer. The focus moves straight to the drawer's ✕, named \"Close\".",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Close"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "criterion": 10,
+    "checked_by": "browser",
+    "reason": "The drawer sliding in from the right and the table being outlined on the floor are movement and a drawn outline."
+  },
+  {
+    "ticket": "F-04",
+    "test": "the drawer of a free table reads \"Garden · 2 seats\", T07, the table drawn and \"State\" \"Free\"",
+    "criterion": 11,
+    "what_should_happen": "T07's drawer gives its section and seats, \"Garden · 2 seats\", with the number T07 as its title. It reads \"State\" \"Free\", and as nobody sits there it names no party.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "{section} · {seats} seats",
+      "State",
+      "Free",
+      "Party"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "criterion": 11,
+    "checked_by": "browser",
+    "reason": "The number shown large and the table drawn in the drawer are sizes and a drawing."
+  },
+  {
+    "ticket": "F-04",
+    "test": "the drawer of a table with a party reads \"Party\" W001 and \"Seated for\" 12 min",
+    "criterion": 12,
+    "what_should_happen": "The Kulkarni party, W001, sat down at T19 twelve minutes ago. T19's drawer reads \"State\" \"Seated\", \"Party\" W001 and \"Seated for\" \"12 min\".",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Party",
+      "Seated for",
+      "{minutes} min",
+      "State",
+      "Seated"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "the drawer of a table whose party has left reads \"State\" \"Uncleared\" and still names the party",
+    "criterion": 13,
+    "what_should_happen": "The party at T19 has got up and the table is not wiped. Its drawer reads \"State\" \"Uncleared\", and \"Party\" still names W001.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "State",
+      "Uncleared",
+      "Party"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "✕ (named \"Close\") closes the drawer, the floor stays as it was, and the focus goes back to the table",
+    "criterion": 14,
+    "what_should_happen": "On the Garden floor, T07's drawer is open. Clicking ✕ closes it, the address and the eight Garden tables stay as they were, and the focus is back on T07.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Close"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "Esc closes a drawer opened from the find box, the filters stay, and the focus goes back to the find box",
+    "criterion": 14,
+    "what_should_happen": "With Garden and Free on, typing 7 in the find box opens T07's drawer. Pressing Esc closes it, the filters and \"8 shown · 8 free\" stay as they were, and the focus is back in the find box.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Table number",
+      "{shown} shown · {free} free"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "criterion": 14,
+    "checked_by": "browser",
+    "reason": "A click on the dimmed page beside the drawer needs the dimmed layer to lie over the floor, which is layout a pretend browser does not have."
+  },
+  {
+    "ticket": "F-04",
+    "test": "an open drawer shows a change to its table, and the minutes growing, while it stays open",
+    "criterion": 15,
+    "what_should_happen": "T19's drawer is open and reads \"State\" \"Free\". The Kulkarni party is seated there on another screen and, within 20 seconds and with the drawer still open, it reads \"Seated\" and \"Seated for\" \"0 min\". A minute later it reads \"1 min\".",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/state/AppContext.jsx"
+    ],
+    "exact_words": [
+      "State",
+      "Free",
+      "Seated",
+      "Seated for",
+      "{minutes} min"
+    ]
+  },
+  {
+    "ticket": "F-04",
+    "test": "a drawer that has just opened shows \"Table\" and the number until its table is read",
+    "criterion": 16,
+    "what_should_happen": "In the first moment after T07 is clicked, before its table has been read, the drawer shows just \"Table\" and T07. Once the table is read, \"Table\" gives way to \"Garden · 2 seats\".",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Table",
+      "{section} · {seats} seats"
+    ]
   }
 ]

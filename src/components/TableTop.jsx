@@ -4,7 +4,7 @@
  * sat) or uncleared (greyed, plates left behind). The state comes from the backend's answer; it is
  * never decided here.
  */
-export default function TableTop({ table, style, compact = false }) {
+export default function TableTop({ table, selected = false, onClick, style, compact = false }) {
   const { no, seats, state } = table;
   const perSide = Math.max(1, Math.round(seats / 2));
   const chairs = (side) => Array.from({ length: perSide }, (_, i) => <i key={`${side}${i}`} className="chair" />);
@@ -29,11 +29,11 @@ export default function TableTop({ table, style, compact = false }) {
     </>
   );
 
-  const className = `tabletop seats-${seats} is-${state}${compact ? ' is-compact' : ''}`;
-  if (compact) return <span className={className} style={style}>{content}</span>;
+  const className = `tabletop seats-${seats} is-${state}${selected ? ' is-selected' : ''}${compact ? ' is-compact' : ''}`;
+  if (!onClick) return <span className={className} style={style}>{content}</span>;
 
   return (
-    <button type="button" className={className} style={style}
+    <button type="button" className={className} style={style} onClick={onClick}
       aria-label={`Table ${no}, ${seats} seats, ${state}`}>
       {content}
     </button>
