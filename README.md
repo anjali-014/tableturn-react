@@ -14,7 +14,7 @@
 - [x] Ticket 6 · Handing over the number
 - [x] Ticket 7 · Seating a party
 - [x] Ticket 8 · The floor staff's view
-- [ ] Ticket 9 · The guest's own screen
+- [x] Ticket 9 · The guest's own screen
 - [ ] Ticket 10 · The manager's board
 
 ## Run it

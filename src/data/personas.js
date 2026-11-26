@@ -16,7 +16,7 @@ export const PERSONAS = [
   {
     id: 'guest', name: 'A guest', role: 'Guest', color: '#4c51bf',
     blurb: 'Gives a name at the stand. Sees the wait they were quoted and, once seated, the wait they had.',
-    nav: [{ to: '/guest' }],
+    nav: [{ to: '/guest', label: 'My wait', icon: 'clock' }],
   },
   {
     id: 'manager', name: 'Ravi', role: 'Manager', color: '#be123c',

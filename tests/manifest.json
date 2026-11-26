@@ -2046,5 +2046,151 @@
       "To clear",
       "Seated"
     ]
+  },
+  {
+    "ticket": "F-09",
+    "test": "with no party chosen, /guest asks \"Which party are you?\" with a button per party, newest first",
+    "criterion": 0,
+    "what_should_happen": "Kulkarni (6) and then Shah (2) have joined the list, and the guest opens My wait without a party. It reads \"Kothari's · your table\" over the title \"My wait\" and asks \"Which party are you?\". There is a button per party, newest first: Shah's W002, then W001, Kulkarni, \"6 covers · waiting\".",
+    "look_at": [
+      "src/pages/guest/MyWait.jsx"
+    ],
+    "exact_words": [
+      "{name} · your table",
+      "My wait",
+      "Which party are you?",
+      "{covers} {cover|covers} · {state}",
+      "W001",
+      "Kulkarni"
+    ]
+  },
+  {
+    "ticket": "F-09",
+    "test": "a party of one reads \"1 cover · waiting\" on its button",
+    "criterion": 0,
+    "what_should_happen": "Only Iyer, a party of one, has joined the list, and the guest opens My wait without a party. Iyer's button reads \"1 cover · waiting\", never \"1 covers\".",
+    "look_at": [
+      "src/pages/guest/MyWait.jsx"
+    ],
+    "exact_words": [
+      "{covers} {cover|covers} · {state}",
+      "1 cover · waiting"
+    ]
+  },
+  {
+    "ticket": "F-09",
+    "test": "with nobody on the list it says \"No party on the list yet\"",
+    "criterion": 1,
+    "what_should_happen": "Nobody has joined the list. My wait says \"No party on the list yet\" and \"Add one as Meera, the host, then come back and be that guest.\"",
+    "look_at": [
+      "src/pages/guest/MyWait.jsx"
+    ],
+    "exact_words": [
+      "No party on the list yet",
+      "Add one as Meera, the host, then come back and be that guest."
+    ]
+  },
+  {
+    "ticket": "F-09",
+    "test": "clicking W001 Kulkarni gives way to the card: \"Party W001\", \"Kulkarni · 6 covers\", \"Place\" 1, and the header names the Kulkarni party",
+    "criterion": 2,
+    "what_should_happen": "Clicking the W001 Kulkarni button takes the question away and shows the party's card: \"Party W001\", \"Kulkarni · 6 covers\" and \"Place\" 1. The person button in the header now names the Kulkarni party.",
+    "look_at": [
+      "src/pages/guest/MyWait.jsx",
+      "src/components/Header.jsx"
+    ],
+    "exact_words": [
+      "Which party are you?",
+      "Party {partyId}",
+      "{name} · {covers} {cover|covers}",
+      "Place",
+      "Kulkarni party"
+    ]
+  },
+  {
+    "ticket": "F-09",
+    "test": "while waiting the card reads \"40 min quoted\", \"Waiting 12 min so far · joined at 19:40\" and \"Meera will call Kulkarni when a table is ready.\"",
+    "criterion": 3,
+    "what_should_happen": "The Kulkarnis joined at 19:40 and have waited 12 minutes. Their card reads \"40 min quoted\" and \"Waiting 12 min so far · joined at 19:40\", says nothing about being past the quote, and at its foot \"Meera will call Kulkarni when a table is ready.\"",
+    "look_at": [
+      "src/pages/guest/MyWait.jsx"
+    ],
+    "exact_words": [
+      "Party {partyId}",
+      "{minutes} min quoted",
+      "Waiting {minutes} min so far · joined at {time}",
+      "Meera will call {name} when a table is ready.",
+      "{minutes} min past the quote"
+    ]
+  },
+  {
+    "ticket": "F-09",
+    "criterion": 3,
+    "checked_by": "browser",
+    "reason": "The bar filling towards the quote is a drawn width, with no number a screen reader could read."
+  },
+  {
+    "ticket": "F-09",
+    "test": "past the quote the line adds \"5 min past the quote\"",
+    "criterion": 4,
+    "what_should_happen": "The Kulkarnis have waited 45 minutes against a quote of 40. The line reads \"Waiting 45 min so far · joined at 19:40\" and adds \"5 min past the quote\".",
+    "look_at": [
+      "src/pages/guest/MyWait.jsx"
+    ],
+    "exact_words": [
+      "Party {partyId}",
+      "Waiting {minutes} min so far · joined at {time}",
+      "{minutes} min past the quote"
+    ]
+  },
+  {
+    "ticket": "F-09",
+    "criterion": 4,
+    "checked_by": "browser",
+    "reason": "The bar being full and in a warning colour is a drawn width and a colour."
+  },
+  {
+    "ticket": "F-09",
+    "test": "as minutes pass, the waiting minutes grow on their own every 20 seconds",
+    "criterion": 5,
+    "what_should_happen": "The Kulkarnis have waited a little under 13 minutes, so the card reads \"Waiting 12 min so far\". Twenty seconds later, with no reload, it reads \"Waiting 13 min so far\".",
+    "look_at": [
+      "src/pages/guest/MyWait.jsx",
+      "src/state/AppContext.jsx"
+    ],
+    "exact_words": [
+      "Waiting {minutes} min so far · joined at {time}"
+    ]
+  },
+  {
+    "ticket": "F-09",
+    "test": "once Meera seats the party, the card shows \"Quoted\" 40 min, \"Waited\" 14 min and \"Table\" T19, and the minutes stop",
+    "criterion": 6,
+    "what_should_happen": "After 14 minutes Meera seats the Kulkarnis at T19 on another screen. With no reload the card shows \"Quoted\" 40 min, \"Waited\" 14 min and \"Table\" T19, with \"Enjoy your meal. The wait was stamped when you sat down and never changes after.\" Ten minutes later \"Waited\" still reads 14 min.",
+    "look_at": [
+      "src/pages/guest/MyWait.jsx"
+    ],
+    "exact_words": [
+      "Party {partyId}",
+      "Quoted",
+      "Waited",
+      "Table",
+      "Enjoy your meal. The wait was stamped when you sat down and never changes after.",
+      "Waiting {minutes} min so far · joined at {time}"
+    ]
+  },
+  {
+    "ticket": "F-09",
+    "test": "once the party has left, and once its table is cleared, the foot says \"Thanks for coming to Kothari's.\"",
+    "criterion": 7,
+    "what_should_happen": "The Kulkarnis have been seated at T19 and have left. The foot of their card says \"Thanks for coming to Kothari's.\", and it still does once their table is cleared.",
+    "look_at": [
+      "src/pages/guest/MyWait.jsx"
+    ],
+    "exact_words": [
+      "Party {partyId}",
+      "Thanks for coming to {name}.",
+      "Table"
+    ]
   }
 ]

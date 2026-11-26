@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import ScrollThumb from './components/ScrollThumb.jsx';
+import MyWait from './pages/guest/MyWait.jsx';
 import Floor from './pages/host/Floor.jsx';
 import Waitlist from './pages/host/Waitlist.jsx';
 import Welcome from './pages/Welcome.jsx';
@@ -19,7 +20,7 @@ export default function App() {
           <Route path="/host/floor"  element={<Floor mode="host" />} />
           <Route path="/host/waitlist" element={<Waitlist />} />
           <Route path="/staff" element={<Floor mode="staff" />} />
-          <Route path="/guest" element={<div className="page" />} />
+         <Route path="/guest" element={<MyWait />} />
           <Route path="/manager" element={<Navigate to="/manager/board" replace />} />
           <Route path="/manager/board" element={<div className="page" />} />
           <Route path="*" element={<Navigate to="/" replace />} />
