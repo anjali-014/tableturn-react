@@ -2192,5 +2192,385 @@
       "Thanks for coming to {name}.",
       "Table"
     ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "/manager/board reads \"Kothari's · tonight\" over \"The board\", with four count cards and \"Every party\"",
+    "criterion": 0,
+    "what_should_happen": "Ravi's board at /manager/board reads \"Kothari's · tonight\" over the title \"The board\". It has four count cards, \"Parties tonight\", \"Seated now\", \"Quote accuracy\" and \"Mean turn\", and the heading \"Every party\".",
+    "look_at": [
+      "src/pages/manager/Board.jsx"
+    ],
+    "exact_words": [
+      "{name} · tonight",
+      "The board",
+      "Parties tonight",
+      "Seated now",
+      "Quote accuracy",
+      "Mean turn",
+      "Every party"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "with nobody on the list the cards read 0, 0, — and —, and \"Every party\" says \"Nobody has joined the list yet\"",
+    "criterion": 1,
+    "what_should_happen": "Nobody has joined the list. The cards read \"Parties tonight\" 0 with \"0 still waiting\", \"Seated now\" 0 with \"at a table\", \"Quote accuracy\" \"—\" with \"once a party is seated\" and \"Mean turn\" \"—\" with \"once a table is cleared\". Under \"Every party\" it says \"Nobody has joined the list yet\" and \"When Meera adds a party, it appears here with its whole evening.\"",
+    "look_at": [
+      "src/pages/manager/Board.jsx"
+    ],
+    "exact_words": [
+      "Nobody has joined the list yet",
+      "When Meera adds a party, it appears here with its whole evening.",
+      "Parties tonight",
+      "{count} still waiting",
+      "Seated now",
+      "at a table",
+      "Quote accuracy",
+      "once a party is seated",
+      "Mean turn",
+      "once a table is cleared"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "\"Quote accuracy\" gives the average of waited minus quoted: -26 min sooner, +5 min longer, 0 min exactly",
+    "criterion": 2,
+    "what_should_happen": "The Kulkarnis, quoted 40 minutes, are seated after 14, then on another evening after 45, then after 40. \"Quote accuracy\" reads \"-26 min\" with \"seated sooner than quoted\", then \"+5 min\" with \"waited longer than quoted\", then \"0 min\" with \"exactly as quoted\".",
+    "look_at": [
+      "src/pages/manager/Board.jsx"
+    ],
+    "exact_words": [
+      "Quote accuracy",
+      "seated sooner than quoted",
+      "waited longer than quoted",
+      "exactly as quoted"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "\"Quote accuracy\" averages over every seated party",
+    "criterion": 2,
+    "what_should_happen": "Two parties were quoted 40 minutes: one was seated after 30 and the other after 50. The average of the two differences is 0, so \"Quote accuracy\" reads \"0 min\" with \"exactly as quoted\".",
+    "look_at": [
+      "src/pages/manager/Board.jsx"
+    ],
+    "exact_words": [
+      "Quote accuracy",
+      "exactly as quoted"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "\"Mean turn\" gives the average minutes the cleared parties had their tables: 42 min over 2 cleared tables, or over 1 cleared table",
+    "criterion": 3,
+    "what_should_happen": "With one cleared table whose party had it 42 minutes, \"Mean turn\" reads \"42 min\" with \"over 1 cleared table\". With two cleared tables, had for 40 and 44 minutes, it reads \"42 min\" with \"over 2 cleared tables\".",
+    "look_at": [
+      "src/pages/manager/Board.jsx"
+    ],
+    "exact_words": [
+      "Mean turn",
+      "over {count} cleared {table|tables}"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "\"Every party\" lists the evening newest first, with \"—\" where a party has not been seated yet",
+    "criterion": 4,
+    "what_should_happen": "Kulkarni joined at 19:40 and sits at T19 after 14 minutes, and Shah joined at 19:54 and waits. \"Every party\" has a table with \"Party\", \"Name\", \"Covers\", \"Joined\", \"Quoted\", \"Waited\", \"Table\" and \"Now\", newest first: W002, Shah, 2, 19:54, 40 min, —, —, waiting, then W001, Kulkarni, 6, 19:40, 40 min, 14 min, T19, seated. The cards read 2 parties with 1 still waiting, and 1 seated now.",
+    "look_at": [
+      "src/pages/manager/Board.jsx"
+    ],
+    "exact_words": [
+      "Party",
+      "Name",
+      "Covers",
+      "Joined",
+      "Quoted",
+      "Waited",
+      "Table",
+      "Now",
+      "—",
+      "Parties tonight",
+      "{count} still waiting",
+      "Seated now",
+      "at a table"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "\"Now\" reads left or cleared as the evening goes on",
+    "criterion": 4,
+    "what_should_happen": "The Kulkarnis have left T19, not yet wiped, and Shah's party has left and its table is cleared. In \"Every party\", Shah's row reads \"cleared\" under \"Now\" and the Kulkarnis' row reads \"left\".",
+    "look_at": [
+      "src/pages/manager/Board.jsx"
+    ],
+    "exact_words": [
+      "Now"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "clicking W001's row opens its party book over the board, and the address does not change",
+    "criterion": 5,
+    "what_should_happen": "Ravi clicks the Kulkarnis' row on the board. Their party book opens over the board, the board is still there behind it, and the address stays /manager/board.",
+    "look_at": [
+      "src/pages/manager/Board.jsx",
+      "src/components/PartyNotebook.jsx"
+    ],
+    "exact_words": [
+      "The party book · {name}",
+      "The board"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "the row's arrow, \"Open W001's record\", opens the book too",
+    "criterion": 5,
+    "what_should_happen": "Ravi clicks the arrow at the end of W001's row, named \"Open W001's record\". The party book opens and the address stays /manager/board.",
+    "look_at": [
+      "src/pages/manager/Board.jsx",
+      "src/components/PartyNotebook.jsx"
+    ],
+    "exact_words": [
+      "Open {partyId}'s record",
+      "The party book · {name}"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "the book's top reads \"Kothari's · Baner\", \"The party book\", \"The party book · Kulkarni\" over \"W001\", with a stamp",
+    "criterion": 6,
+    "what_should_happen": "Ravi opens the Kulkarnis' book while they wait, once they are seated, once they have left and once their table is cleared. Each time the cover reads \"Kothari's · Baner\" and \"The party book\", and the page reads \"The party book · Kulkarni\" over \"W001\". The stamp reads \"Waiting\", \"Seated\", \"Left\" and \"Cleared\" in turn.",
+    "look_at": [
+      "src/components/PartyNotebook.jsx"
+    ],
+    "exact_words": [
+      "Open {partyId}'s record",
+      "Kothari's · Baner",
+      "The party book",
+      "The party book · {name}",
+      "Waiting",
+      "Seated",
+      "Left",
+      "Cleared"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "a cleared party's facts read Party, Joined, Quoted, Waited and Turn",
+    "criterion": 7,
+    "what_should_happen": "The Kulkarnis joined at 19:40, sat at T19 after 14 minutes and had the table 42 minutes before it was cleared. Their book reads \"Party\" Kulkarni with \"6 covers · place 1\", \"Joined\" Fri 6 Nov with \"at 19:40\", \"Quoted\" 40 min with \"at 19:40\", \"Waited\" 14 min with \"table T19\", and \"Turn\" 42 min with \"seated to left\".",
+    "look_at": [
+      "src/components/PartyNotebook.jsx"
+    ],
+    "exact_words": [
+      "Open {partyId}'s record",
+      "Party",
+      "{covers} {cover|covers} · place {position}",
+      "Joined",
+      "at {time}",
+      "Quoted",
+      "Waited",
+      "table {no}",
+      "Turn",
+      "seated to left"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "before seating, \"Waited\" reads \"—\" with \"not seated yet\", and there is no Turn",
+    "criterion": 7,
+    "what_should_happen": "The Kulkarnis are still waiting. Their book reads \"Waited\" \"—\" with \"not seated yet\", and has no \"Turn\" at all.",
+    "look_at": [
+      "src/components/PartyNotebook.jsx"
+    ],
+    "exact_words": [
+      "Open {partyId}'s record",
+      "Waited",
+      "not seated yet",
+      "Turn"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "\"What happened\", beside \"Can’t be wiped\", has one line per thing that happened, oldest first, each with its day and time",
+    "criterion": 8,
+    "what_should_happen": "Beside \"What happened\" the book says \"Can’t be wiped\". Under it come five lines, oldest first, each with its day and time: \"Joined the list, 6 covers\" and \"Quoted a 40-minute wait\" at 19:40, \"Seated at T19\" with \"waited 14 min\" at 19:54, \"Left the table\" at 20:36, and \"Table cleared\" with \"turn 42 min\" at 20:42.",
+    "look_at": [
+      "src/components/PartyNotebook.jsx"
+    ],
+    "exact_words": [
+      "Open {partyId}'s record",
+      "What happened",
+      "Can’t be wiped",
+      "Joined the list, {covers} {cover|covers}",
+      "Quoted a {minutes}-minute wait",
+      "Seated at {table}",
+      "waited {minutes} min",
+      "Left the table",
+      "Table cleared",
+      "turn {minutes} min"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "a refused seating leaves no line in the book",
+    "criterion": 9,
+    "what_should_happen": "The Kulkarnis (6) were refused at the two-top T01. Their book has only the two lines of joining: \"Joined the list, 6 covers\" and \"Quoted a 40-minute wait\", and nothing for the refusal.",
+    "look_at": [
+      "src/components/PartyNotebook.jsx",
+      "src/backend/seatings/service.js"
+    ],
+    "exact_words": [
+      "Open {partyId}'s record",
+      "Joined the list, {covers} {cover|covers}",
+      "Quoted a {minutes}-minute wait"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "the note at the foot, \"How this book works\", says lines are only ever added and ends \"Close it with ×, Esc or a click outside and you are right where you were.\"",
+    "criterion": 10,
+    "what_should_happen": "At the foot of the book, \"How this book works\" explains that lines are only ever added. It ends with \"Close it with ×, Esc or a click outside and you are right where you were.\"",
+    "look_at": [
+      "src/components/PartyNotebook.jsx"
+    ],
+    "exact_words": [
+      "Open {partyId}'s record",
+      "How this book works",
+      "Close it with ×, Esc or a click outside and you are right where you were."
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "× (named \"Close the notebook\") closes the book, the page is as it was, and the focus is back on the arrow",
+    "criterion": 11,
+    "what_should_happen": "When the book opens the focus is on its ×, named \"Close the notebook\". Pressing it closes the book, the board is as it was at /manager/board, and the focus is back on the arrow \"Open W001's record\" that opened it.",
+    "look_at": [
+      "src/components/PartyNotebook.jsx"
+    ],
+    "exact_words": [
+      "Open {partyId}'s record",
+      "Close the notebook"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "Esc closes the book, and the focus is back where it was",
+    "criterion": 11,
+    "what_should_happen": "With the book open, pressing Esc closes it. The board is still there and the focus is back on the arrow that opened the book.",
+    "look_at": [
+      "src/components/PartyNotebook.jsx"
+    ],
+    "exact_words": [
+      "Open {partyId}'s record",
+      "The board"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "criterion": 11,
+    "checked_by": "browser",
+    "reason": "A click outside the book lands on the dimmed layer drawn over the page, which needs layout a pretend browser does not have."
+  },
+  {
+    "ticket": "F-10",
+    "criterion": 12,
+    "checked_by": "browser",
+    "reason": "Scrolling inside a book longer than the screen, with the page behind kept still and the book's own slim bar, needs heights and scrolling a pretend browser does not have."
+  },
+  {
+    "ticket": "F-10",
+    "test": "on the Waitlist page a row of \"On the list now\", or its arrow with Enter, opens that party's book",
+    "criterion": 13,
+    "what_should_happen": "On Meera's Waitlist page, clicking the Kulkarnis' row of \"On the list now\" opens their book, and Esc closes it. Tabbing to the row's arrow, named \"Open W001's record\", and pressing Enter opens the book again.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx",
+      "src/components/PartyNotebook.jsx"
+    ],
+    "exact_words": [
+      "On the list now",
+      "The party book · {name}",
+      "Open {partyId}'s record"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "on the Waitlist page a row of \"Seated tonight\" opens that party's book",
+    "criterion": 13,
+    "what_should_happen": "The Kulkarnis are seated. Clicking their row of \"Seated tonight\" on the Waitlist page opens their book, stamped \"Seated\".",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx",
+      "src/components/PartyNotebook.jsx"
+    ],
+    "exact_words": [
+      "Seated tonight",
+      "The party book · {name}",
+      "Seated"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "in Meera's drawer of a seated table, \"Open W001's record\" closes the drawer and opens the book",
+    "criterion": 14,
+    "what_should_happen": "The Kulkarnis sit at T19 and Meera opens its drawer. Clicking \"Open W001's record\" closes the drawer and opens the party's book.",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/components/PartyNotebook.jsx"
+    ],
+    "exact_words": [
+      "Open {partyId}'s record",
+      "The party book · {name}"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "in Joseph's drawer, after he clears the table, \"Open W001's record\" still opens the party's book",
+    "criterion": 14,
+    "what_should_happen": "The Kulkarnis have left T19 and Joseph presses \"Clear\" in its drawer. The drawer still offers \"Open W001's record\", and clicking it closes the drawer and opens the party's book, stamped \"Cleared\".",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/components/PartyNotebook.jsx"
+    ],
+    "exact_words": [
+      "Clear",
+      "{table} is free. The party had it for {minutes} min.",
+      "Open {partyId}'s record",
+      "The party book · {name}",
+      "Cleared"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "when the hand-over has finished, \"Open W001’s record\" in its closing line opens the book over the Waitlist page",
+    "criterion": 15,
+    "what_should_happen": "Meera adds Kulkarni and hands over the slip. In the closing line, clicking \"Open W001’s record\" opens the party's book over the Waitlist page, and the address stays /host/waitlist.",
+    "look_at": [
+      "src/components/HandTicket.jsx",
+      "src/components/PartyNotebook.jsx"
+    ],
+    "exact_words": [
+      "Name",
+      "Add to the list",
+      "Kulkarni party",
+      "Open {partyId}’s record",
+      "The party book · {name}"
+    ]
+  },
+  {
+    "ticket": "F-10",
+    "test": "before the parties are read the cards show 0 and — and the table area stays empty",
+    "criterion": 16,
+    "what_should_happen": "In the first moment, before the parties have been read, the cards show 0 and —. Neither \"Nobody has joined the list yet\" nor a table shows until they are read, and then the table appears with one party.",
+    "look_at": [
+      "src/pages/manager/Board.jsx"
+    ],
+    "exact_words": [
+      "Parties tonight",
+      "Quote accuracy",
+      "Mean turn",
+      "Nobody has joined the list yet"
+    ]
   }
 ]

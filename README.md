@@ -15,7 +15,7 @@
 - [x] Ticket 7 · Seating a party
 - [x] Ticket 8 · The floor staff's view
 - [x] Ticket 9 · The guest's own screen
-- [ ] Ticket 10 · The manager's board
+- [x] Ticket 10 · The manager's board
 
 ## Run it
 

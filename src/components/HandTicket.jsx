@@ -11,7 +11,7 @@ import { formatTime } from '../data/format.js';
  * Drag and drop is HTML's own (draggable, onDragOver, onDrop). Tapping the ticket does the same, because phones
  * do not drag.
  */
-export default function HandTicket({ party, queue, onDone }) {
+export default function HandTicket({ party, queue, onDone, onOpen }) {
   const [stage, setStage] = useState('hand');
   const [dragging, setDragging] = useState(false);
   const [over, setOver] = useState(false);
@@ -103,6 +103,7 @@ export default function HandTicket({ party, queue, onDone }) {
             <p className="place-title">{party.name} party is number {party.position} in the queue</p>
             <p className="place-text">
               Joined at {formatTime(Date.parse(party.joinedAt))}, quoted about {party.quotedMinutes} min.
+              {' '}<button type="button" className="link-btn" onClick={() => onOpen(party.partyId)}>Open {party.partyId}’s record <Icon name="arrow" size={14} /></button>
             </p>
           </>
         )}

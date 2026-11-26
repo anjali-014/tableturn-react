@@ -21,7 +21,7 @@ export const PERSONAS = [
   {
     id: 'manager', name: 'Ravi', role: 'Manager', color: '#be123c',
     blurb: 'Owns the restaurant. Reads every party’s record.',
-    nav: [{ to: '/manager/board' }],
+        nav: [{ to: '/manager/board', label: 'The board', icon: 'book' }],
   },
 ];
 

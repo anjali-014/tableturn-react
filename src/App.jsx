@@ -4,6 +4,7 @@ import ScrollThumb from './components/ScrollThumb.jsx';
 import MyWait from './pages/guest/MyWait.jsx';
 import Floor from './pages/host/Floor.jsx';
 import Waitlist from './pages/host/Waitlist.jsx';
+import Board from './pages/manager/Board.jsx';
 import Welcome from './pages/Welcome.jsx';
 
 export default function App() {
@@ -22,7 +23,8 @@ export default function App() {
           <Route path="/staff" element={<Floor mode="staff" />} />
          <Route path="/guest" element={<MyWait />} />
           <Route path="/manager" element={<Navigate to="/manager/board" replace />} />
-          <Route path="/manager/board" element={<div className="page" />} />
+          <Route path="/manager/board" element={<Board />} />
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
