@@ -5,6 +5,7 @@ import Icon from '../../components/Icon.jsx';
 import Problem from '../../components/Problem.jsx';
 import SectionTabs from '../../components/SectionTabs.jsx';
 import TableTop from '../../components/TableTop.jsx';
+import { formatTime } from '../../data/format.js';
 import { explain } from '../../data/messages.js';
 import { BRANCH, SECTIONS, STATES } from '../../data/restaurant.js';
 import { useApp, useGet, usePartyList } from '../../state/AppContext.jsx';
@@ -57,15 +58,45 @@ function SeatForm({ table }) {
           options={parties.map((p) => ({ value: p.partyId, label: `${p.partyId} · ${p.name}`, note: `${p.covers} ${p.covers === 1 ? 'cover' : 'covers'} · ${p.state}` }))} />
         <button type="submit" className="btn btn-primary">Seat</button>
       </div>
-            <Outcome answer={answer} facts={{ partyId: party, table: table.no, seats: table.seats, covers: parties.find((p) => p.partyId === party)?.covers }}
+      <Outcome answer={answer} facts={{ partyId: party, table: table.no, seats: table.seats, covers: parties.find((p) => p.partyId === party)?.covers }}
         ok={(b) => `${b.partyId} seated at ${b.table} after waiting ${b.waitedMinutes} min.`} />
     </form>
   );
 }
 
+/** Joseph marks the table: Leave when the party goes, Clear once it is wiped. A second press is refused. */
+function StaffActions({ table }) {
+  const { post } = useApp();
+  const onTable = useGet(`/branches/${BRANCH.code}/tables/${table.no}/seating`);
+  const current = onTable?.status === 200 ? onTable.body.seatingId : null;
+  // the seating this drawer has acted on: once the table is cleared it has none, and a second press is still refused
+  const [seating, setSeating] = useState(null);
+  const [answer, setAnswer] = useState(null);
+  const acting = current ?? seating;
+
+  if (!onTable) return null;
+  if (!acting) return <p className="drawer-empty">Free. Nothing to mark here until a party is seated.</p>;
+  async function act(kind) {
+    setSeating(acting);
+    setAnswer({ kind, ...(await post(`/seatings/${acting}/${kind}`)) });
+  }
+  return (
+    <div className="drawer-form">
+      <p className="field-label">Seating {acting}</p>
+      <div className="drawer-form-row">
+        <button type="button" className="btn btn-primary" onClick={() => act('leave')}><Icon name="door" size={16} /> Leave</button>
+        <button type="button" className="btn btn-soft" onClick={() => act('clear')}><Icon name="sparkle" size={16} /> Clear</button>
+      </div>
+      <Outcome answer={answer} facts={{ seatingId: acting }} ok={(b) => (answer.kind === 'leave'
+        ? `The party left at ${formatTime(Date.parse(b.leftAt))}. The table needs clearing now.`
+        : `${b.table} is free. The party had it for ${b.turnMinutes} min.`)} />
+    </div>
+  );
+}
 
 
-function TableDrawer({ no, onClose }) {
+
+function TableDrawer({ no, mode, onClose }) {
   const answer = useGet(
     `/branches/${BRANCH.code}/tables/${encodeURIComponent(no)}`
   );
@@ -168,7 +199,7 @@ function TableDrawer({ no, onClose }) {
                 </div>
               )}
             </dl>
-           <SeatForm table={table} />
+           {mode === 'host' ? <SeatForm table={table} /> : <StaffActions table={table} />}
           </>
         )}
       </aside>
@@ -176,7 +207,7 @@ function TableDrawer({ no, onClose }) {
   );
 }
 
-export default function Floor() {
+export default function Floor({ mode }) {
   const [params, setParams] = useSearchParams();
 
   const [selected, setSelected] = useState(null);
@@ -243,26 +274,24 @@ export default function Floor() {
 
     setSelected(no);
   }
+const host = mode === 'host';
 
-  return (
+    return (
     <div className="page is-fit">
 
       <div className="page-head">
         <div>
-          <p className="eyebrow">
-            {BRANCH.name} · {BRANCH.code}
-          </p>
-
-          <h1 className="page-title">The floor</h1>
+          <p className="eyebrow">{host ? `${BRANCH.name} · ${BRANCH.code}` : "Joseph's section of the floor"}</p>
+          <h1 className="page-title">{host ? 'The floor' : 'Tables'}</h1>
         </div>
 
-        <SectionTabs personaId="host" />
+        {host && <SectionTabs personaId="host" />}
       </div>
 
 
       {/* Count cards appear only when the filtered request is valid. */}
       {answer?.status === 200 && everything?.status === 200 && (
-        <div className="stats" style={{ '--stat-cols': 4 }}>
+        <div className="stats" style={{ '--stat-cols': 5 }}>
 
           <div className="stat">
             <span className="stat-label">Total tables</span>
@@ -314,6 +343,19 @@ export default function Floor() {
 
             <span className="stat-note">
               since seated
+            </span>
+          </div>
+
+
+          <div className={`stat${all.some((t) => t.state === 'uncleared') ? ' is-alert' : ''}`}>
+            <span className="stat-label">To clear</span>
+
+            <strong className="stat-value">
+              {all.filter((t) => t.state === 'uncleared').length}
+            </strong>
+
+            <span className="stat-note">
+              left, not yet wiped
             </span>
           </div>
 
@@ -375,7 +417,7 @@ export default function Floor() {
 
         <Problem answer={answer}>
           <Link
-            to="/host/floor"
+            to={host ? '/host/floor' : '/staff'}
             className="btn btn-soft problem-action"
           >
             Show the whole floor
@@ -471,10 +513,7 @@ export default function Floor() {
 
 
       {selected && (
-        <TableDrawer
-          no={selected}
-          onClose={() => setSelected(null)}
-        />
+       <TableDrawer no={selected} mode={mode} onClose={() => setSelected(null)} />
       )}
 
     </div>

@@ -11,7 +11,7 @@ export const PERSONAS = [
   {
     id: 'staff', name: 'Joseph', role: 'Floor staff', color: '#b45309',
     blurb: 'Works the floor. Marks a table when the party leaves, and again once it is wiped.',
-    nav: [{ to: '/staff' }],
+    nav: [{ to: '/staff', label: 'Tables', icon: 'grid' }],
   },
   {
     id: 'guest', name: 'A guest', role: 'Guest', color: '#4c51bf',

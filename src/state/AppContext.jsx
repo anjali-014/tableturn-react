@@ -21,7 +21,7 @@ export function AppProvider({ children }) {
 
   const now = Date.now();
 
-  /** A request that changes the data, such as a party joining the list. */
+  /** A request that changes the data: a join, a seating, a leave, a clear. */
   async function post(path, body) {
     const answer = await api.post(path, body);
     if (answer.status < 300) setDataVersion((v) => v + 1);

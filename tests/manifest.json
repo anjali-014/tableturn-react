@@ -1839,5 +1839,212 @@
       "{partyId} · {name}",
       "T19"
     ]
+  },
+  {
+    "ticket": "F-08",
+    "test": "/staff reads \"Joseph's section of the floor\" over \"Tables\", with the same cards, filters, find box and floor, and no section tabs",
+    "criterion": 0,
+    "what_should_happen": "Joseph's page at /staff reads \"Joseph's section of the floor\" over the title \"Tables\". It has the same count cards, filter buttons, find box and 22 tables as Meera's floor, but not her two section tabs.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Joseph's section of the floor",
+      "Tables",
+      "Total tables",
+      "Free tables",
+      "All sections",
+      "Garden",
+      "Any state",
+      "Uncleared",
+      "Table number",
+      "The floor",
+      "Waitlist"
+    ]
+  },
+  {
+    "ticket": "F-08",
+    "test": "a fifth card, \"To clear\", counts the tables left and not wiped, with \"left, not yet wiped\", on Joseph's page and Meera's",
+    "criterion": 1,
+    "what_should_happen": "Two parties have left their tables, which nobody has wiped yet, and a third party still sits. On Joseph's page and on Meera's floor a fifth card reads \"To clear\" 2 with \"left, not yet wiped\". On a fresh evening it reads 0.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "To clear",
+      "left, not yet wiped"
+    ]
+  },
+  {
+    "ticket": "F-08",
+    "criterion": 1,
+    "checked_by": "browser",
+    "reason": "The card standing out in a warning colour while it is 1 or more is a colour."
+  },
+  {
+    "ticket": "F-08",
+    "test": "a free table nobody has been seated at from this drawer says \"Free. Nothing to mark here until a party is seated.\"",
+    "criterion": 2,
+    "what_should_happen": "Joseph opens T07, which is free. Its drawer says \"Free. Nothing to mark here until a party is seated.\" and has no Leave button.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Free. Nothing to mark here until a party is seated.",
+      "Leave"
+    ]
+  },
+  {
+    "ticket": "F-08",
+    "test": "T19 with a party at it shows \"Seating S001\" with \"Leave\" and \"Clear\"",
+    "criterion": 3,
+    "what_should_happen": "The Kulkarnis sit at T19, the first seating of the evening. Joseph's drawer for T19 shows \"Seating S001\" with the buttons \"Leave\" and \"Clear\".",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Seating {seatingId}",
+      "Leave",
+      "Clear"
+    ]
+  },
+  {
+    "ticket": "F-08",
+    "test": "\"Leave\" says \"The party left at 21:20. The table needs clearing now.\" and T19 turns to clear",
+    "criterion": 4,
+    "what_should_happen": "At 21:20 Joseph presses \"Leave\" for T19. Under the buttons it says \"The party left at 21:20. The table needs clearing now.\" and the drawer reads \"State\" \"Uncleared\". On the floor T19 reads \"to clear\", \"To clear\" goes from 0 to 1 and \"Seated\" from 1 to 0.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Seating {seatingId}",
+      "Leave",
+      "The party left at {time}. The table needs clearing now.",
+      "State",
+      "Uncleared",
+      "to clear",
+      "To clear",
+      "Seated",
+      "parties eating"
+    ]
+  },
+  {
+    "ticket": "F-08",
+    "criterion": 4,
+    "checked_by": "browser",
+    "reason": "T19 turning grey and striped is a colour and a drawing; the test checks its \"to clear\" label."
+  },
+  {
+    "ticket": "F-08",
+    "test": "\"Leave\" a second time says \"The party has already left\"",
+    "criterion": 5,
+    "what_should_happen": "T19's party has already been marked as left. Pressing \"Leave\" again says \"The party has already left\" and \"The party of seating S001 has already left. Nothing changed.\", and \"To clear\" stays at 1.",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Seating {seatingId}",
+      "Leave",
+      "The party left at {time}. The table needs clearing now.",
+      "The party has already left",
+      "The party of seating {seatingId} has already left",
+      "Nothing changed.",
+      "To clear"
+    ]
+  },
+  {
+    "ticket": "F-08",
+    "test": "\"Clear\" before \"Leave\" says \"The party is still at the table\" and changes nothing",
+    "criterion": 6,
+    "what_should_happen": "The Kulkarnis still sit at T19 and Joseph presses \"Clear\" first. Under the buttons it says \"The party is still at the table\" and \"Press Leave when they go; clear the table after that.\". Nothing changes: the drawer still reads \"Seated\", T19 still shows W001 and \"To clear\" stays at 0.",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Seating {seatingId}",
+      "Clear",
+      "The party is still at the table",
+      "Press Leave when they go; clear the table after that.",
+      "State",
+      "To clear"
+    ]
+  },
+  {
+    "ticket": "F-08",
+    "test": "\"Clear\" after the party left says \"T19 is free. The party had it for 42 min.\", not counting the wiping",
+    "criterion": 7,
+    "what_should_happen": "The Kulkarnis sat down at 20:38 and left at 21:20, and Joseph wipes the table six minutes later and presses \"Clear\". Under the buttons it says \"T19 is free. The party had it for 42 min.\", the minutes from sitting down to leaving. T19 is free again, \"To clear\" goes back to 0 and \"Free tables\" up to 22.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Seating {seatingId}",
+      "Leave",
+      "Clear",
+      "The party left at {time}. The table needs clearing now.",
+      "{table} is free. The party had it for {minutes} min.",
+      "To clear",
+      "Free tables"
+    ]
+  },
+  {
+    "ticket": "F-08",
+    "test": "\"Clear\" a second time says \"The table was already cleared\"",
+    "criterion": 8,
+    "what_should_happen": "T19 has just been cleared from this drawer. Pressing \"Clear\" again says \"The table was already cleared\" and \"Seating S001 has already been cleared. Nothing changed.\"",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Seating {seatingId}",
+      "Leave",
+      "Clear",
+      "The party left at {time}. The table needs clearing now.",
+      "{table} is free. The party had it for {minutes} min.",
+      "The table was already cleared",
+      "Seating {seatingId} has already been cleared",
+      "Nothing changed."
+    ]
+  },
+  {
+    "ticket": "F-08",
+    "test": "once Joseph has cleared T19, Meera finds it free on her floor and can seat a new party there",
+    "criterion": 9,
+    "what_should_happen": "Joseph marks T19 left and then cleared, and the tablet switches to Meera. On her floor T19 is a free six-top, and seating the waiting party W002 there works.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Seating {seatingId}",
+      "Leave",
+      "Clear",
+      "The party left at {time}. The table needs clearing now.",
+      "{table} is free. The party had it for {minutes} min.",
+      "Close",
+      "Joseph",
+      "Meera",
+      "Table {no}, {seats} seats, {state}"
+    ]
+  },
+  {
+    "ticket": "F-08",
+    "test": "when Joseph marks T19 on his page, Meera's floor open on another screen changes too, with no reload",
+    "criterion": 10,
+    "what_should_happen": "Joseph's page and Meera's floor are open on two screens, and T19 shows W001 on both. Joseph presses \"Leave\" for T19 and, within 20 seconds and with no reload, Meera's T19 reads \"to clear\" and her cards read \"To clear\" 1 and \"Seated\" 0.",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/state/AppContext.jsx"
+    ],
+    "exact_words": [
+      "Seating {seatingId}",
+      "Leave",
+      "The party left at {time}. The table needs clearing now.",
+      "to clear",
+      "To clear",
+      "Seated"
+    ]
   }
 ]

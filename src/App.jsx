@@ -16,9 +16,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/host" element={<Navigate to="/host/floor" replace />} />
-          <Route path="/host/floor" element={<Floor />} />
+          <Route path="/host/floor"  element={<Floor mode="host" />} />
           <Route path="/host/waitlist" element={<Waitlist />} />
-          <Route path="/staff" element={<div className="page" />} />
+          <Route path="/staff" element={<Floor mode="staff" />} />
           <Route path="/guest" element={<div className="page" />} />
           <Route path="/manager" element={<Navigate to="/manager/board" replace />} />
           <Route path="/manager/board" element={<div className="page" />} />

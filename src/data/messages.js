@@ -1,9 +1,9 @@
 import { BRANCH, SECTIONS, STATES } from './restaurant.js';
 
-// Each refusal the screens can meet, in the words of the person who meets it. The backend gives one shape (type,
+// Every refusal the backend can give, in the words of the person who meets it. The backend gives one shape (type,
 // title, status, detail, and some extras); the screens never show its own wording. Each sentence here is built from
 // the refusal's type, the fields it names, its extras, and `facts`: what the screen asked about (the table, the
-// party, or what was typed in the form).
+// party, the seating, or what was typed in the form).
 
 /** "Window, Garden or Indoor" */
 const orList = (names) =>
@@ -82,6 +82,14 @@ export function explain(answer, known) {
         ? { title: 'A larger party must be seated first', text: `A smaller party cannot take a larger table here: party ${body.mustSeatFirst} is waiting and fits table ${facts.table}.` }
         : { title: 'Not at a larger table', text: `A smaller party cannot take a larger table here: table ${facts.table} is kept for its size. Under this setting a smaller party never takes a larger table.` };
 
+    case '/errors/already-left':
+      return { title: 'The party has already left', text: `The party of seating ${facts.seatingId} has already left. Nothing changed.` };
+
+    case '/errors/not-left-yet': return { title: 'The party is still at the table', text: 'Press Leave when they go; clear the table after that.' };
+
+    case '/errors/already-cleared':
+      return { title: 'The table was already cleared', text: `Seating ${facts.seatingId} has already been cleared. Nothing changed.` };
+
     case '/errors/no-such-party':
       return { title: 'No such party', text: `Party ${facts.partyId} is not on the list of this branch.` };
 
@@ -90,6 +98,8 @@ export function explain(answer, known) {
         title: 'No such table',
         text: `Branch ${BRANCH.code} has no table ${facts.table}. Tables run from T01 to T22.`,
       };
+
+    case '/errors/no-such-seating': return { title: 'No such seating', text: `There is no seating ${facts.seatingId}.` };
 
     case '/errors/no-such-branch':
       return {
