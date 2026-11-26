@@ -1552,5 +1552,292 @@
       "On the list now",
       "Nobody is waiting"
     ]
+  },
+  {
+    "ticket": "F-07",
+    "test": "with nobody on the list the drawer says \"Nobody is on the list yet.\" and links to the Waitlist page",
+    "criterion": 0,
+    "what_should_happen": "Nobody has joined the list, and Meera opens T07. Its drawer says \"Nobody is on the list yet.\" with the link \"Add a party to the waitlist\" and \"to seat them here.\". The link opens the Waitlist page.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Nobody is on the list yet.",
+      "Add a party to the waitlist",
+      "to seat them here."
+    ]
+  },
+  {
+    "ticket": "F-07",
+    "test": "with parties on the list, T19's drawer shows \"Seat a party at T19\", the first waiting party already chosen, and \"Seat\"",
+    "criterion": 1,
+    "what_should_happen": "Kulkarni (W001) joined first and Shah (W002) after them. Meera opens the free table T19 and sees \"Seat a party at T19\", a drop-down with the first waiting party, W001 Kulkarni, already chosen, and a \"Seat\" button. A screen reader names the drop-down \"Party to seat: W001 · Kulkarni\", so the choice is heard too.",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/components/Dropdown.jsx"
+    ],
+    "exact_words": [
+      "Seat a party at {no}",
+      "Party to seat",
+      "{partyId} · {name}",
+      "Party to seat: W001 · Kulkarni",
+      "Seat"
+    ]
+  },
+  {
+    "ticket": "F-07",
+    "test": "the drop-down \"Party to seat\" lists every party, waiting ones first, each with its covers and state, and ticks the chosen one",
+    "criterion": 2,
+    "what_should_happen": "Kulkarni (6) and Mehta (4) are waiting and Shah (2) is already seated. Opening the drop-down \"Party to seat\" lists all three, such as \"W001 · Kulkarni\" with \"6 covers · waiting\", with the two waiting parties before Shah. Exactly one option is marked as chosen: the one the drop-down shows.",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/components/Dropdown.jsx"
+    ],
+    "exact_words": [
+      "Seat a party at {no}",
+      "Party to seat",
+      "{partyId} · {name}",
+      "{covers} {cover|covers} · {state}",
+      "waiting"
+    ]
+  },
+  {
+    "ticket": "F-07",
+    "criterion": 2,
+    "checked_by": "browser",
+    "reason": "The tick beside the chosen party is a drawn mark; the test checks the choice the list marks for screen readers."
+  },
+  {
+    "ticket": "F-07",
+    "test": "seating the Kulkarnis (6) at T19 says \"W001 seated at T19 after waiting 14 min.\" and T19 turns seated everywhere",
+    "criterion": 3,
+    "what_should_happen": "The Kulkarnis have waited 14 minutes. Meera chooses them in T19's drawer and presses \"Seat\": under the button it says \"W001 seated at T19 after waiting 14 min.\", and the drawer reads \"State\" \"Seated\" with the party and \"Seated for\". T19 turns seated on the floor, the Waitlist badge drops from 2 to 1, and W001 is no longer on \"On the list now\".",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "Waitlist",
+      "Party to seat",
+      "{partyId} · {name}",
+      "Seat",
+      "{partyId} seated at {table} after waiting {minutes} min.",
+      "State",
+      "Seated",
+      "Party",
+      "Seated for",
+      "{minutes} min",
+      "On the list now"
+    ]
+  },
+  {
+    "ticket": "F-07",
+    "test": "seating the Kulkarnis (6) at the two-top T01 says \"That table is too small\"",
+    "criterion": 4,
+    "what_should_happen": "Meera opens T01, a two-top, chooses the Kulkarnis (6) and presses \"Seat\". Under the button it says \"That table is too small\" and \"Table T01 seats 2; the party has 6. Pick a table with more seats.\"",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Seat a party at {no}",
+      "Party to seat",
+      "Seat",
+      "That table is too small",
+      "Table {no} seats {seats}; the party has {covers}",
+      "Pick a table with more seats."
+    ]
+  },
+  {
+    "ticket": "F-07",
+    "test": "seating a party at T19 while a party sits there says \"That table is not ready\"",
+    "criterion": 5,
+    "what_should_happen": "The Kulkarnis sit at T19. Meera chooses Shah there and presses \"Seat\": under the button it says \"That table is not ready\" and \"Table T19 has not been cleared since its last party. It needs clearing first.\"",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Seat a party at {no}",
+      "Party to seat",
+      "Seat",
+      "That table is not ready",
+      "Table {no} has not been cleared since its last party",
+      "It needs clearing first."
+    ]
+  },
+  {
+    "ticket": "F-07",
+    "test": "seating a party at T19 after its party has left, before it is wiped, says \"That table is not ready\"",
+    "criterion": 5,
+    "what_should_happen": "The Kulkarnis have left T19 and nobody has wiped it. Seating Shah there gives the same refusal: \"That table is not ready\" and \"Table T19 has not been cleared since its last party. It needs clearing first.\"",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Seat a party at {no}",
+      "Party to seat",
+      "Seat",
+      "That table is not ready",
+      "Table {no} has not been cleared since its last party",
+      "It needs clearing first."
+    ]
+  },
+  {
+    "ticket": "F-07",
+    "test": "choosing W001, already seated, at another free table says \"That party is already at a table\"",
+    "criterion": 6,
+    "what_should_happen": "W001 already sits at T19. In the drawer of the free table T20, Meera chooses W001 and presses \"Seat\": under the button it says \"That party is already at a table\" and \"Party W001 is already at a table.\"",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Seat a party at {no}",
+      "Party to seat",
+      "Seat",
+      "That party is already at a table",
+      "Party {partyId} is already at a table"
+    ]
+  },
+  {
+    "ticket": "F-07",
+    "test": "seating Shah (2) at the four-top T11 while W003, a party of 4, waits says \"A larger party must be seated first\"",
+    "criterion": 7,
+    "what_should_happen": "Shah (2 covers) and W003, a party of 4, are both waiting. Meera tries to seat Shah at the four-top T11: under the button it says \"A larger party must be seated first\" and \"A smaller party cannot take a larger table here: party W003 is waiting and fits table T11.\"",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/data/messages.js"
+    ],
+    "exact_words": [
+      "Seat a party at {no}",
+      "Party to seat",
+      "Seat",
+      "A larger party must be seated first",
+      "A smaller party cannot take a larger table here:",
+      "party {partyId} is waiting and fits table {no}"
+    ]
+  },
+  {
+    "ticket": "F-07",
+    "test": "with no larger party that fits waiting, a party of two is seated at a four-top",
+    "criterion": 8,
+    "what_should_happen": "Shah (2) and the Kulkarnis (6) are waiting, and the Kulkarnis are too many for a four-top. Seating Shah at the four-top T11 works: \"W002 seated at T11 after waiting 0 min.\", and T11 turns seated.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Seat a party at {no}",
+      "Party to seat",
+      "Seat",
+      "{partyId} seated at {table} after waiting {minutes} min."
+    ]
+  },
+  {
+    "ticket": "F-07",
+    "test": "choosing another party in the drop-down takes the refusal away",
+    "criterion": 9,
+    "what_should_happen": "\"That table is too small\" is showing under T01's Seat button. Choosing Shah in the drop-down takes the refusal away, and the drop-down shows Shah.",
+    "look_at": [
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Seat a party at {no}",
+      "Party to seat",
+      "Seat",
+      "That table is too small",
+      "{partyId} · {name}"
+    ]
+  },
+  {
+    "ticket": "F-07",
+    "test": "a refused seating changes nothing on the floor or the lists",
+    "criterion": 10,
+    "what_should_happen": "The Kulkarnis are refused at T01 as too many for it. After closing the drawer, T01 is still free, \"Free tables\" still reads 22 and the Waitlist badge still reads 2. On the Waitlist page W001 is still on \"On the list now\" and there is no \"Seated tonight\".",
+    "look_at": [
+      "src/pages/host/Floor.jsx",
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "Seat a party at {no}",
+      "Party to seat",
+      "Seat",
+      "That table is too small",
+      "Close",
+      "Table {no}, {seats} seats, {state}",
+      "Free tables",
+      "Waitlist",
+      "On the list now",
+      "Seated tonight"
+    ]
+  },
+  {
+    "ticket": "F-07",
+    "test": "once a party is seated, \"Seated tonight\" lists it: W001, Kulkarni, 6, T19, 40 min, 14 min, seated, then left, then cleared",
+    "criterion": 11,
+    "what_should_happen": "The Kulkarnis sat at T19 after waiting 14 minutes. Under \"On the list now\", \"Seated tonight\" shows 1 and a table with \"Party\", \"Name\", \"Covers\", \"Table\", \"Quoted\", \"Waited\" and \"Now\" reading W001, Kulkarni, 6, T19, 40 min, 14 min and \"seated\". When the party leaves, \"Now\" turns to \"left\", and once the table is wiped, to \"cleared\".",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "Seated tonight",
+      "Party",
+      "Name",
+      "Covers",
+      "Table",
+      "Quoted",
+      "Waited",
+      "Now",
+      "{minutes} min",
+      "seated",
+      "left",
+      "cleared"
+    ]
+  },
+  {
+    "ticket": "F-07",
+    "test": "with nobody seated yet there is no \"Seated tonight\" section",
+    "criterion": 12,
+    "what_should_happen": "Kulkarni and Shah are waiting and nobody has been seated. The Waitlist page shows \"On the list now\" with W001, but no \"Seated tonight\" anywhere. Once a party is seated, the section appears.",
+    "look_at": [
+      "src/pages/host/Waitlist.jsx"
+    ],
+    "exact_words": [
+      "On the list now",
+      "Seated tonight"
+    ]
+  },
+  {
+    "ticket": "F-07",
+    "test": "Esc closes the open drop-down, the choice stays, and the drawer stays open",
+    "criterion": 13,
+    "what_should_happen": "W001 Kulkarni is chosen and the drop-down is open again. Pressing Esc closes the drop-down only: the drawer stays open and the drop-down still shows W001 Kulkarni.",
+    "look_at": [
+      "src/components/Dropdown.jsx",
+      "src/components/useDismiss.js",
+      "src/pages/host/Floor.jsx"
+    ],
+    "exact_words": [
+      "Seat a party at {no}",
+      "Party to seat",
+      "{partyId} · {name}"
+    ]
+  },
+  {
+    "ticket": "F-07",
+    "test": "a click outside the open drop-down closes it, the choice stays, and the drawer stays open",
+    "criterion": 13,
+    "what_should_happen": "W001 Kulkarni is chosen and the drop-down is open again. A click on the drawer's title, outside the drop-down, closes it: the drawer stays open and the drop-down still shows W001 Kulkarni.",
+    "look_at": [
+      "src/components/Dropdown.jsx",
+      "src/components/useDismiss.js"
+    ],
+    "exact_words": [
+      "Seat a party at {no}",
+      "Party to seat",
+      "{partyId} · {name}",
+      "T19"
+    ]
   }
 ]

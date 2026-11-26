@@ -41,6 +41,7 @@ export default function Waitlist() {
   const records = usePartyRecords();
   const parties = records ?? [];
   const waiting = parties.filter((p) => p.state === 'waiting').sort((a, b) => a.position - b.position || a.partyId.localeCompare(b.partyId));
+  const done = parties.filter((p) => p.state !== 'waiting');
 
   const fieldErrors = fieldWords(answer, sent);
   const handing = answer?.status === 201;   // a number was given: hand it over first
@@ -55,7 +56,7 @@ export default function Waitlist() {
     if (result.status === 201) { setName(''); setPhone(''); }
   }
 
-  return (
+    return (
     <div className="page is-fit">
       <div className="page-head">
         <div>
@@ -152,6 +153,30 @@ export default function Waitlist() {
           </div>
         )}
       </section>
+
+      {done.length > 0 && (
+        <section className="list-section" aria-labelledby="done-title">
+          <h2 id="done-title" className="section-title">Seated tonight <span className="section-count">{done.length}</span></h2>
+          <div className="table-card">
+            <table className="table">
+              <thead><tr><th>Party</th><th>Name</th><th>Covers</th><th>Table</th><th>Quoted</th><th>Waited</th><th>Now</th></tr></thead>
+              <tbody>
+                {done.map((p, i) => (
+                  <tr key={p.partyId} style={{ '--i': i }}>
+                    <td className="mono strong">{p.partyId}</td>
+                    <td>{p.name}</td>
+                    <td className="mono">{p.covers}</td>
+                    <td className="mono">{p.table ?? '—'}</td>
+                    <td className="mono">{p.quotedMinutes} min</td>
+                    <td className="mono">{p.waitedMinutes != null ? `${p.waitedMinutes} min` : '—'}</td>
+                    <td><span className={`pill pill-${p.state === 'seated' ? 'holding' : p.state === 'cleared' ? 'ok' : 'muted'}`}>{p.state}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

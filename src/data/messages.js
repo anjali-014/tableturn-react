@@ -2,8 +2,8 @@ import { BRANCH, SECTIONS, STATES } from './restaurant.js';
 
 // Each refusal the screens can meet, in the words of the person who meets it. The backend gives one shape (type,
 // title, status, detail, and some extras); the screens never show its own wording. Each sentence here is built from
-// the refusal's type, the fields it names, its extras, and `facts`: what the screen asked about (the table, or what
-// was typed in the form).
+// the refusal's type, the fields it names, its extras, and `facts`: what the screen asked about (the table, the
+// party, or what was typed in the form).
 
 /** "Window, Garden or Indoor" */
 const orList = (names) =>
@@ -29,6 +29,9 @@ function fieldText(field, facts) {
 
     case 'state':
       return `Pick a state: ${orList(STATES.map((s) => s.name))}.`;
+
+    case 'partyId': return 'Pick a party to seat.';
+    case 'table': return 'Pick a table first.';
 
     default:
       return 'Check what you typed and try again.';
@@ -64,6 +67,23 @@ export function explain(answer, known) {
 
     case '/errors/party-too-big':
       return { title: 'No table here seats that many', text: `The largest table seats ${body.maxCovers}. Suggest splitting the party.` };
+
+    case '/errors/table-too-small':
+      return { title: 'That table is too small', text: `Table ${facts.table} seats ${facts.seats}; the party has ${facts.covers}. Pick a table with more seats.` };
+
+    case '/errors/already-seated':
+      return { title: 'That party is already at a table', text: `Party ${facts.partyId} is already at a table.` };
+
+    case '/errors/table-not-cleared':
+      return { title: 'That table is not ready', text: `Table ${facts.table} has not been cleared since its last party. It needs clearing first.` };
+
+    case '/errors/overtaking':
+      return body.mustSeatFirst
+        ? { title: 'A larger party must be seated first', text: `A smaller party cannot take a larger table here: party ${body.mustSeatFirst} is waiting and fits table ${facts.table}.` }
+        : { title: 'Not at a larger table', text: `A smaller party cannot take a larger table here: table ${facts.table} is kept for its size. Under this setting a smaller party never takes a larger table.` };
+
+    case '/errors/no-such-party':
+      return { title: 'No such party', text: `Party ${facts.partyId} is not on the list of this branch.` };
 
     case '/errors/no-such-table':
       return {
